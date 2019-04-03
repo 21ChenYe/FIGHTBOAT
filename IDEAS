@@ -1,0 +1,23 @@
+Ideas for a twist
+
+Every boat has different abilities, for example:
+
+Carrier [5] = sends an aircraft fleet that bombs 2 spaces each spaced one space apart. Reveals if there are any targetable ships
+within one block of both bombing spots. (cooldown: 10+? turns)
+Battleship [4] = grants ability to attack in a plus sign (5 space total) (cooldown: 10+? turns)
+Cruiser [3] = repair one damaged component (cannot revive dead ships)
+Submarine [3]	= Does not have to be reported as sank unless there are no more units on the field
+Destroyer [2] = can reposition itself within 4 spaces [cooldown: 5 turns]
+Supply Ship [2] = can swap positions with one ship. [cooldown 10 turns] 
+
+The classic battleship game has ship values of 5 - 4 - 3 - 3 - 2 in terms of space taken.
+This means that overall, 17 spots out of 100 are taken up by boats.
+
+One twist we can implement:
+- You don't have to use exactly that formation of carrier - battleship - cruiser - submarine - destroyer. 
+- You can use ANY formation whose total space taken adds up to 17.
+Wanna use 7 destroyers and a submarine? Go for it. 
+Wanna do 5 carriers and a destroyer? Go for it.
+Wanna have 5 submarines? DO IT.
+
+Have your own ideas? Feel free to dispute mine or come up with your own or both. 
