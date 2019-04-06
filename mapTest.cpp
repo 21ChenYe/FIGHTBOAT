@@ -21,4 +21,10 @@ int main() {
 		m1.reset();
 		cout << endl;
 		m1.display();
+		cout << endl;
+		cout << m1.getWidth() <<endl;
+		m1.setWidth(15);
+		m1.reset();
+		m1.display();
+
 }

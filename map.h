@@ -6,8 +6,8 @@ using namespace std;
 
 class Map{
 	private:
-		const int width = 10;
-		const int length = 10;
+		int width = 10;
+		int length = 10;
 		vector<vector<int> > Table = vector<vector<int>>(10,vector<int>(10));
 		string name;
 	public:
@@ -20,6 +20,10 @@ class Map{
 		void setName(string n);
 		void display();
 		void reset();
+		int getWidth();
+		int getLength();
+		void setWidth(int w);
+		void setLength(int l);
 
 
 };

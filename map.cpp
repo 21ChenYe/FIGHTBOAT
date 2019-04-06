@@ -96,4 +96,16 @@ using namespace std;
 			}
 		}
 	}
+	int Map::getWidth(){
+		return width;
+	}
+	int Map::getLength(){
+		return length;
+	}
+	void Map::setWidth(int w){
+		width = w;
+	}
+	void Map::setLength(int l){
+		length = l;
+	}
 
