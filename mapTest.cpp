@@ -5,7 +5,7 @@ using namespace std;
 
 int main() {
 		vector<vector<int>> popVect = {{1,1},{2,2},{3,3}};
-		vector<vector<int>> attackVect = {{1,1}};
+		vector<vector<int>> attackVect = {{1,1}, {2,2}};
 		cout << "check" << endl;
 		Map m1 = Map();
 		m1.setName("Player 1");
@@ -17,6 +17,10 @@ int main() {
 		m1.display();
 		cout << endl;
 		vector<vector<int>> attacks = m1.Attack(attackVect);
+		m1.display();
+		int status = m1.sinkShip({attacks[1],attacks[2]});
+		cout <<endl;
+		cout << status << endl;
 		m1.display();
 		m1.reset();
 		cout << endl;

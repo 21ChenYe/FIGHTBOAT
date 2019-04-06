@@ -69,6 +69,7 @@ using namespace std;
 		//1 = Ship on tile
 		//2 = Missed shot
 		//3 = A hit tile on ship
+		//4 = Sunk ship
 		return Table[x][y];
 	}
 	string Map::getName(){
@@ -80,7 +81,7 @@ using namespace std;
 		name = n;
 	}
 	void Map::display(){
-		//Displys map, will probably remove this feature later
+		//Displays map, will probably remove this feature later
 		for (int i = 0; i < length; i++){
 			for(int j = 0; j <width; j++){
 				cout << returnState(i,j) << ", ";
@@ -107,5 +108,21 @@ using namespace std;
 	}
 	void Map::setLength(int l){
 		length = l;
+	}
+	int Map::sinkShip(vector<vector<int>> shipVec){
+		//Method to convert a ship whose tiles have all been hit to the sunk state
+		//If you try converting a tile to sunk state and it is currently not in the hit
+		//state then it returns -1, else returns 0;
+		for(int i = 0; i< shipVec.size(); i++){
+			int x = shipVec[i][0];
+			int y = shipVec[i][1];
+			if (returnState(x,y) == 3){
+				Table[x][y] = 4;
+			}
+			else {
+				return -1;
+			}
+		}
+		return 0;
 	}
 

@@ -24,6 +24,7 @@ class Map{
 		int getLength();
 		void setWidth(int w);
 		void setLength(int l);
+		int sinkShip(vector<vector<int>> shipVec);
 
 
 };
