@@ -4,7 +4,13 @@
 using namespace std;
 
 int main() {
-		vector<vector<int>> popVect = {{1,1},{2,2},{3,3}};
+
+		vector<vector<int>> popVect;
+		for (int x = 0; x < 10; x++){
+			for(int y = 0; y < 10; y += 2){
+				popVect.push_back({x,y});
+			}
+		}
 		vector<vector<int>> attackVect = {{1,1}, {2,2}};
 		cout << "check" << endl;
 		Map m1 = Map();
@@ -18,11 +24,17 @@ int main() {
 		cout << endl;
 		vector<vector<int>> attacks = m1.Attack(attackVect);
 		m1.display();
-		int status = m1.sinkShip({attacks[1],attacks[2]});
+		int status = m1.sinkShip(attacks);
 		cout <<endl;
 		cout << status << endl;
 		m1.display();
+		vector<vector<int>> zeros = m1.getZeros();
+		cout << endl;
+		for (int h = 0; h < zeros.size(); h++){
+			cout << "(" << zeros[h][0] << "," << zeros[h][1] << "), ";
+		}
 		m1.reset();
+		cout << endl;
 		cout << endl;
 		m1.display();
 		cout << endl;

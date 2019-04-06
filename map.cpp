@@ -43,9 +43,8 @@ using namespace std;
 	vector<vector<int>> Map::Attack(vector <vector<int> > attacks){
 		//Function used to attack. Arguments: vector of int vectors, same format as Populate
 		//Returns a vector of succesful hits
-		//The very first coordinates is always {-1,-1}, if that is the only thing returned
-		//There are no hits
-		vector<vector<int>> Hits = {{-1,-1}};
+		//Returns an empty vector if there are no hits
+		vector<vector<int>> Hits;
 		int hCounter = 0;
 		for (int i = 0; i < attacks.size(); i ++){
 				int x = attacks[i][0];
@@ -58,7 +57,6 @@ using namespace std;
 				else if (returnState(x,y) == 0 ) {
 					Table[x][y] = 2;
 				}
-
 		}
 		return Hits;
 	}
@@ -125,4 +123,16 @@ using namespace std;
 		}
 		return 0;
 	}
-
+	vector<vector<int>> Map::getZeros() {
+		//Returns a vector of vector ints of the coordinates of all the zeros on the map
+		//Returns an empty vector if there are no zeros
+			vector<vector<int>> Zeros;
+			for (int i =0; i < length; i++){
+				for(int j =0; j < width; j++){
+					if (returnState(i,j) == 0){
+						Zeros.push_back({i,j});
+					}
+				}
+			}
+			return Zeros;
+	}

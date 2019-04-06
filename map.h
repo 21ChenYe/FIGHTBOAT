@@ -25,6 +25,7 @@ class Map{
 		void setWidth(int w);
 		void setLength(int l);
 		int sinkShip(vector<vector<int>> shipVec);
+		vector<vector<int>> getZeros();
 
 
 };
