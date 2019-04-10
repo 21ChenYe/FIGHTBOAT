@@ -26,3 +26,10 @@ SHIPS:
 - Each turn = one player specifies a grid spot to attack on the other players grid. If that grid spot includes a segment of a ship, a X is revealed in that spot, signifying a portion of some ship has been destroyed.
 
 We will be implementing various improvements/twists upon this basic forumula!
+
+		//Returns the state of one coordinate on map
+		//0 = Empty tile
+		//1 = Ship on tile
+		//2 = Missed shot
+		//3 = A hit tile on ship
+		//4 = Sunk ship
