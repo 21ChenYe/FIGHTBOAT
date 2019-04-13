@@ -46,6 +46,7 @@ int main() {
 
 
 		ship s1 = ship(4,"cruiser", 2,3,'w');
+		
 
 
 

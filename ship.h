@@ -16,5 +16,6 @@ class ship{
 		ship(int newHp, string newName, int startX, int startY, char newOrient);
 		bool isSunk();
 		bool hit(int x, int y);
+		int getHealth();
 
 };

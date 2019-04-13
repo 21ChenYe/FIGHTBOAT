@@ -11,6 +11,7 @@ class Map{
 		vector<vector<int> > Table = vector<vector<int>>(10,vector<int>(10));
 		string name;
 	public:
+		vector<ship> fleet;
 		Map();
 		Map(string n);
 		int Populate(vector < vector<int> > coords);
