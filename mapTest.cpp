@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include "map.h"
+#include "ship.h"
 using namespace std;
 
 int main() {
@@ -42,5 +43,11 @@ int main() {
 		m1.setWidth(15);
 		m1.reset();
 		m1.display();
+
+
+		ship s1 = ship(4,"cruiser", 2,3,'w');
+
+
+
 
 }
