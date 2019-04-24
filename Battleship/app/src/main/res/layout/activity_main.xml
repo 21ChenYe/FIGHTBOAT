@@ -21,13 +21,41 @@
             android:tag=""/>
 
         <Button
+            android:id="@+id/rotate_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="false"
+            android:layout_marginLeft="46dp"
+            android:layout_toRightOf="@+id/text_view_player"
+            android:text="Rotate"/>
+
+        <Button
             android:id="@+id/drag_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/text_view_player"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="0dp"
-            android:tag="TagUrIt"
+            android:tag="Red"
+            android:text="Drag Me!" />
+        <Button
+            android:id="@+id/drag_button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/drag_button"
+            android:layout_centerHorizontal="false"
+            android:layout_alignBottom="@+id/drag_button"
+            android:tag="Green"
+            android:text="Drag Me!" />
+        <Button
+            android:id="@+id/drag_button3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/drag_button"
+            android:layout_centerHorizontal="false"
+            android:layout_alignBottom="@+id/drag_button"
+            android:tag="Orange"
             android:text="Drag Me!" />
     </RelativeLayout>
     <LinearLayout

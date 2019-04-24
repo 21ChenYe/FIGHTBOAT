@@ -19,6 +19,9 @@ public class MainActivity extends AppCompatActivity {
     private Button[][] buttons = new Button[10][10];
     private TextView player;
     private Button buttonDrag;
+    private Button buttonDrag2;
+    private Button buttonDrag3;
+    private Button buttonRotate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +37,62 @@ public class MainActivity extends AppCompatActivity {
                     buttons[i][j].setOnDragListener(dragListen);
             }
         }
+        buttonRotate = findViewById(R.id.rotate_button);
+        buttonRotate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buttonDrag.setRotation(buttonDrag.getRotation() + 90);
+                buttonDrag2.setRotation(buttonDrag2.getRotation() + 90);
+                buttonDrag3.setRotation(buttonDrag3.getRotation() + 90);
+                int width = buttonDrag.getWidth();
+                buttonDrag.setWidth(buttonDrag.getHeight());
+                buttonDrag.setHeight(width);
+                 width = buttonDrag2.getWidth();
+                buttonDrag2.setWidth(buttonDrag2.getHeight());
+                buttonDrag2.setHeight(width);
+                 width = buttonDrag3.getWidth();
+                buttonDrag3.setWidth(buttonDrag3.getHeight());
+                buttonDrag3.setHeight(width);
+
+
+
+            }
+        });
         buttonDrag = findViewById(R.id.drag_button);
         buttonDrag.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                ClipData.Item item = new ClipData.Item("Success!");
+                ClipData.Item item = new ClipData.Item((String) v.getTag());
                 ClipData dragData = new ClipData(
-                        "dragData",
+                        (String) v.getTag(),
+                        new String[] {ClipDescription.MIMETYPE_TEXT_PLAIN},
+                        item);
+                View.DragShadowBuilder myShadow = new View.DragShadowBuilder(v);
+                v.startDrag(dragData,myShadow,null,0);
+
+                return true;
+            }
+            });
+        buttonDrag2 = findViewById(R.id.drag_button2);
+        buttonDrag2.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ClipData.Item item = new ClipData.Item((String) v.getTag());
+                ClipData dragData = new ClipData(
+                        (String) v.getTag(),
+                        new String[] {ClipDescription.MIMETYPE_TEXT_PLAIN},
+                        item);
+                View.DragShadowBuilder myShadow = new View.DragShadowBuilder(v);
+                v.startDrag(dragData,myShadow,null,0);
+                return true;
+            }
+            });
+        buttonDrag3= findViewById(R.id.drag_button3);
+        buttonDrag3.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ClipData.Item item = new ClipData.Item((String) v.getTag());
+                ClipData dragData = new ClipData((String) v.getTag(),
                         new String[] {ClipDescription.MIMETYPE_TEXT_PLAIN},
                         item);
                 View.DragShadowBuilder myShadow = new View.DragShadowBuilder(v);
@@ -75,9 +127,22 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case DragEvent.ACTION_DROP:
                         ClipData.Item item = event.getClipData().getItemAt(0);
-                        CharSequence dragData = item.getText();
+                        Toast.makeText(getApplicationContext(), item.getText(), Toast.LENGTH_LONG).show();
+                        String dragData = (String)item.getText();
                         Toast.makeText(getApplicationContext(), "Dragged data is a " + dragData, Toast.LENGTH_LONG).show();
-                        v.setBackgroundColor(Color.GREEN);
+                        switch(dragData){
+                            case "Red":
+                                v.setBackgroundColor(Color.RED);
+                                break;
+                            case "Green":
+                                v.setBackgroundColor(Color.GREEN);
+                                break;
+                            case "Orange":
+                                v.setBackgroundColor(Color.YELLOW);
+                                break;
+                            default:
+                                v.setBackgroundColor(Color.BLACK);
+                        }
                         v.setTag("Green");
                         v.invalidate();
                         return true;
