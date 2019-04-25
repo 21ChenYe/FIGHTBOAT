@@ -15,8 +15,23 @@ public class MainMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
+        configureButton1();
 
 
-                   }
+
+    }
+
+    private void configureButton1() {
+            Button button1 = (Button) findViewById(R.id.button1);
+            button1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(MainMenu.this, MainActivity.class));
+                }
+            });
+    }
+
+
+
 
 }
