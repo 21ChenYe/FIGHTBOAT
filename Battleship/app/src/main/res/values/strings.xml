@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Battleship</string>
+    <string
+        name="FIGHTBOAT">FIGHTBOAT</string>
+    <string
+        name="Player">Play Head-to-Head!</string>
+    <string
+        name="Computer">Play against the Computer!</string>
 </resources>
