@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -16,9 +17,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
+            android:tag=""
             android:text="Drag Item"
-            android:textSize="30sp"
-            android:tag=""/>
+            android:textSize="30sp" />
 
         <Button
             android:id="@+id/rotate_button"
@@ -28,49 +29,72 @@
             android:layout_centerHorizontal="false"
             android:layout_marginLeft="46dp"
             android:layout_toRightOf="@+id/text_view_player"
-            android:text="Rotate"/>
+            android:text="Rotate" />
 
         <Button
             android:id="@+id/drag_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="77dp"
+            android:layout_height="39dp"
             android:layout_below="@+id/text_view_player"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="0dp"
-            android:tag="Red"
-            android:text="Drag Me!" />
+            android:layout_marginStart="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="26dp"
+            android:layout_toEndOf="@+id/drag_button2"
+            android:layout_toRightOf="@+id/drag_button2"
+            android:background="@drawable/cruiser"
+            android:tag="Red" />
+
         <Button
             android:id="@+id/drag_button2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/drag_button"
-            android:layout_centerHorizontal="false"
-            android:layout_alignBottom="@+id/drag_button"
-            android:tag="Green"
-            android:text="Drag Me!" />
-        <Button
-            android:id="@+id/drag_button3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/drag_button"
-            android:layout_centerHorizontal="false"
-            android:layout_alignBottom="@+id/drag_button"
-            android:tag="Orange"
-            android:text="Drag Me!" />
-
-        <ImageButton
-            android:id="@+id/imageButton"
-            android:layout_width="73dp"
+            android:layout_width="78dp"
             android:layout_height="41dp"
             android:layout_below="@+id/text_view_player"
-            android:layout_marginTop="1dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginRight="0dp"
-            android:layout_toStartOf="@+id/drag_button2"
-            android:layout_toLeftOf="@+id/drag_button2"
-            app:srcCompat="@drawable/destroyer"
-            android:scaleType = "fitCenter"
-            android:adjustViewBounds = "true" />
+            android:layout_marginStart="1dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginTop="27dp"
+            android:layout_marginBottom="0dp"
+            android:layout_toEndOf="@+id/button5"
+            android:layout_toRightOf="@+id/button5"
+            android:background="@drawable/sub"
+            android:tag="Green" />
+
+        <Button
+            android:id="@+id/drag_button3"
+            android:layout_width="74dp"
+            android:layout_height="41dp"
+            android:layout_alignTop="@+id/drag_button"
+            android:layout_marginStart="1dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginTop="-2dp"
+            android:layout_toEndOf="@+id/drag_button"
+            android:layout_toRightOf="@+id/drag_button"
+            android:background="@drawable/bship"
+            android:tag="Orange" />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="109dp"
+            android:layout_height="41dp"
+            android:layout_below="@+id/rotate_button"
+            android:layout_marginStart="1dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginTop="18dp"
+            android:layout_toEndOf="@+id/drag_button3"
+            android:layout_toRightOf="@+id/drag_button3"
+            android:background="@drawable/carrier" />
+
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="105dp"
+            android:layout_height="42dp"
+            android:layout_below="@+id/text_view_player"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginStart="-4dp"
+            android:layout_marginLeft="-4dp"
+            android:layout_marginTop="26dp"
+            android:background="@drawable/destroyer" />
+
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
