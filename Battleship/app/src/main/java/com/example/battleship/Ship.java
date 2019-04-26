@@ -47,6 +47,7 @@ public class Ship extends android.support.v7.widget.AppCompatImageButton {
     public void setDirection(String c){ direction = c;}
     public void setLength(int l) {
         length = l;
+        health = l;
         positions = new int[length][2];
     }
     public boolean isSunk () { return Sunk;}

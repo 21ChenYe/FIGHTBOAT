@@ -52,8 +52,12 @@ public class MainActivity extends AppCompatActivity {
                     buttons[i][j] = findViewById(resId);
                     buttons[i][j].setPosX(j);
                     buttons[i][j].setPosY(i);
-                myDragEventListener dragListen = new myDragEventListener();
+                    buttons[i][j].setState("empty");
+                    buttons[i][j].setShip("");
+                    myDragEventListener dragListen = new myDragEventListener();
                     buttons[i][j].setOnDragListener(dragListen);
+                    myOnClickListener clickListen = new myOnClickListener();
+                    buttons[i][j].setOnClickListener(clickListen);
             }
         }
          carrier= findViewById(R.id.carrier_ship);
@@ -333,5 +337,45 @@ public class MainActivity extends AppCompatActivity {
             placeShip(x,y);
         }
 
+    }
+    protected class myOnClickListener implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            Tile t = (Tile) v;
+            if(t.getState().equals("empty")){
+                t.setState("missed");
+                t.setBackgroundColor(Color.BLACK);
+                //Add popup message saying missed
+            }
+            else if (t.getState().equals("filled")){
+                t.setState("hit");
+                String name = t.getShip();
+                for (int ship = 0; ship < shiparr.length; ship ++){
+                    if(shiparr[ship].getType().equals(name)){
+                        shiparr[ship].hit(t.getPosX(),t.getPosY());
+                        if(shiparr[ship].isSunk()){
+                            sink(name);
+                            //Add popup message saying sunk ...
+                        }
+                        else{
+                            t.setState("hit");
+                            t.setBackgroundColor(Color.RED);
+                            //Add popup message saying hit
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+    public void sink(String name){
+        for(int i = 0; i<dim ; i++){
+            for(int j  = 0; j<dim; j++){
+                if(buttons[i][j].getShip().equals(name)){
+                    buttons[i][j].setState("sunk");
+                    buttons[i][j].setBackgroundColor(Color.YELLOW);
+                }
+            }
+        }
     }
 }
