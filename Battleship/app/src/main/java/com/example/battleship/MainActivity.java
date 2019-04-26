@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private Ship carrier;
     private Ship battleship;
     private Ship cruiser;
+    private Ship sub;
     private Button buttonRotate;
     private String type;
     private String direction;
@@ -66,6 +67,12 @@ public class MainActivity extends AppCompatActivity {
         myOnLongClickListener LongClickListen3 = new myOnLongClickListener();
         cruiser.setOnLongClickListener(LongClickListen3);
 
+        sub = findViewById(R.id.sub_ship);
+        sub.setType("sub");
+        sub.setLength(3);
+        myOnLongClickListener LongClickListen4 = new myOnLongClickListener();
+        sub.setOnLongClickListener(LongClickListen4);
+
 
         buttonRotate = findViewById(R.id.rotate_button);
         buttonRotate.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
                     battleship.setDirection("n");
                     cruiser.setRotation(cruiser.getRotation() + 90);
                     cruiser.setDirection("n");
+                    sub.setRotation(sub.getRotation() + 90);
+                    sub.setDirection("n");
                 }
                 else {
                     carrier.setRotation(carrier.getRotation() - 90);
@@ -86,6 +95,8 @@ public class MainActivity extends AppCompatActivity {
                     battleship.setDirection("e");
                     cruiser.setRotation(cruiser.getRotation() - 90);
                     cruiser.setDirection("e");
+                    sub.setRotation(sub.getRotation() - 90);
+                    sub.setDirection("e");
                 }
             }
         });
@@ -170,10 +181,10 @@ public class MainActivity extends AppCompatActivity {
                                 return false;
                             }
                         }
+                        if(!check(x,y)){
+                            return false;}
                                 if(direction.equals("n")){
-                                    if(!check(x,y)){
-                                        return false;
-                                    }
+
                                     for (int i = y; i < y+length ; i++){
                                         buttons[i][x].setBackgroundColor(Color.GREEN);
                                     }
@@ -250,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
                                         buttons[y][x+i].setBackground(part);
                                     }
                                 }
-                                Ship[] shiparr = {carrier,battleship,cruiser};
+                                Ship[] shiparr = {carrier,battleship,cruiser,sub};
                                 for(int k = 0; k<shiparr.length;k++){
                                     if(shiparr[k].getType() == type){
                                         shiparr[k].setPositions(x,y);

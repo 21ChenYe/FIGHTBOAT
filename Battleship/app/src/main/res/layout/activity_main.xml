@@ -19,28 +19,33 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:tag=""
-            android:text="Drag Item"
+            android:text="Place Your Ships!"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textSize="30sp" />
 
         <Button
             android:id="@+id/rotate_button"
-            android:layout_width="wrap_content"
+            android:layout_width="53dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="false"
-            android:layout_marginLeft="46dp"
+            android:layout_marginLeft="36dp"
             android:layout_toRightOf="@+id/text_view_player"
-            android:text="Rotate" />
+            android:background="@android:drawable/ic_menu_rotate"
+            android:textSize="7dp" />
 
         <com.example.battleship.Ship
             android:id="@+id/carrier_ship"
             android:layout_width="70dp"
             android:layout_height="31dp"
             android:layout_below="@+id/text_view_player"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="17dp"
-            android:layout_marginBottom="11dp"
+            android:layout_marginStart="119dp"
+            android:layout_marginLeft="119dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginBottom="15dp"
             android:background="@drawable/carrier"
             android:minHeight="48dp"
             android:text="Drag Me!" />
@@ -49,23 +54,40 @@
             android:id="@+id/battle_ship"
             android:layout_width="69dp"
             android:layout_height="30dp"
-            android:layout_alignBottom="@+id/carrier_ship"
-            android:layout_centerHorizontal="false"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="28dp"
+            android:layout_marginLeft="28dp"
+            android:layout_marginTop="55dp"
             android:layout_marginRight="0dp"
-            android:layout_marginBottom="1dp"
-            android:layout_toLeftOf="@+id/carrier_ship"
-            android:background="@drawable/bship"
-            android:text="Drag Me!" />
+            android:layout_marginBottom="0dp"
+            android:background="@drawable/bship" />
 
         <com.example.battleship.Ship
             android:id="@+id/cruiser_ship"
             android:layout_width="69dp"
             android:layout_height="31dp"
-            android:layout_alignBottom="@+id/carrier_ship"
-            android:layout_centerHorizontal="false"
-            android:layout_marginLeft="-1dp"
-            android:layout_toRightOf="@+id/carrier_ship"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="205dp"
+            android:layout_marginLeft="205dp"
+            android:layout_marginTop="54dp"
             android:background="@drawable/destroyer"
+            android:text="Drag Me!" />
+
+        <com.example.battleship.Ship
+            android:id="@+id/sub_ship"
+            android:layout_width="69dp"
+            android:layout_height="31dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="286dp"
+            android:layout_marginLeft="286dp"
+            android:layout_marginTop="54dp"
+            android:background="@drawable/sub"
             android:text="Drag Me!" />
     </RelativeLayout>
 
@@ -95,8 +117,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:state="empty"
-            />
+            app:state="empty" />
 
         <com.example.battleship.Tile
             android:id="@+id/button_03"
