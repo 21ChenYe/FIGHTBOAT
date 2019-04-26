@@ -3,6 +3,7 @@ package com.example.battleship;
 import android.annotation.TargetApi;
 import android.content.ClipData;
 import android.content.ClipDescription;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -20,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Random;
+
 public class MainActivity extends AppCompatActivity {
     private Tile[][] buttons = new Tile[10][10];
     private int dim = 10;
@@ -32,11 +35,15 @@ public class MainActivity extends AppCompatActivity {
     private String type;
     private String direction;
     private int length;
+    Ship[] shiparr;
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Intent intention = new Intent(getApplicationContext(), PopActivity.class);
+        startActivity(intention);
         player = findViewById(R.id.text_view_player);
         for (int i =0; i < 10 ; i++){
             for (int j = 0; j < 10; j ++){
@@ -52,27 +59,28 @@ public class MainActivity extends AppCompatActivity {
          carrier= findViewById(R.id.carrier_ship);
         carrier.setType("carrier");
         carrier.setLength(5);
-        myOnLongClickListener LongClickListen = new myOnLongClickListener();
-        carrier.setOnLongClickListener(LongClickListen);
+
 
         battleship = findViewById(R.id.battle_ship);
         battleship.setType("cruiser");
         battleship.setLength(3);
-        myOnLongClickListener LongClickListen2 = new myOnLongClickListener();
-        battleship.setOnLongClickListener(LongClickListen2);
+
 
         cruiser = findViewById(R.id.cruiser_ship);
         cruiser.setType("destroyer");
         cruiser.setLength(2);
-        myOnLongClickListener LongClickListen3 = new myOnLongClickListener();
-        cruiser.setOnLongClickListener(LongClickListen3);
+
 
         sub = findViewById(R.id.sub_ship);
         sub.setType("sub");
         sub.setLength(3);
-        myOnLongClickListener LongClickListen4 = new myOnLongClickListener();
-        sub.setOnLongClickListener(LongClickListen4);
 
+        Ship[] temp = {battleship,cruiser,sub,carrier};
+        shiparr = temp;
+        for (int ship = 0; ship < shiparr.length; ship++){
+            myOnLongClickListener LongClickListen = new myOnLongClickListener();
+            shiparr[ship].setOnLongClickListener(LongClickListen);
+        }
 
         buttonRotate = findViewById(R.id.rotate_button);
         buttonRotate.setOnClickListener(new View.OnClickListener() {
@@ -100,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        RandomPlace();
     }
     protected class myOnLongClickListener implements  View.OnLongClickListener {
         @Override
@@ -133,25 +142,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     protected class myDragEventListener implements View.OnDragListener{
-        private boolean check(int x, int y){
-            if(direction.equals("n")){
-                for (int i = y; i < y+length ; i++){
-                    if(buttons[i][x].getState() == "filled"){
-                        return false;
-                    }
-
-                }
-            }
-            else{
-                for (int i = x; i < x+length ; i++){
-                   if(buttons[y][i].getState() == "filled"){
-                       return false;
-                   }
-                }
-            }
-            return true;
-        }
-        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
         public boolean onDrag(View v, DragEvent event) {
                 Tile t = (Tile) v;
@@ -238,36 +228,7 @@ public class MainActivity extends AppCompatActivity {
                                 if(!check(x,y)){
                                     return false;
                                 }
-                                if(direction.equals("n")){
-                                    for (int i = 0; i < length ; i++){
-                                        buttons[i+y][x].setState("filled");
-                                        buttons[i+y][x].setShip(type);
-                                        buttons[i+y][x].setShipPart(i+1);
-                                        String drawName = buttons[i+y][x].getShip() +"_" + buttons[i+y][x].getShipPart() +"1";
-                                        int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
-                                        Drawable part = getDrawable(resId);
-                                        buttons[i+y][x].setBackground(part);
-
-                                    }
-                                }
-                                else{
-                                    for (int i = 0; i < length ; i++){
-                                        buttons[y][x+i].setState("filled");
-                                        buttons[y][x+i].setShip(type);
-                                        buttons[y][x+i].setShipPart(i+1);
-                                        String drawName = buttons[y][x+i].getShip() +"_" + buttons[y][x+i].getShipPart();
-                                        int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
-                                        Drawable part = getDrawable(resId);
-                                        buttons[y][x+i].setBackground(part);
-                                    }
-                                }
-                                Ship[] shiparr = {carrier,battleship,cruiser,sub};
-                                for(int k = 0; k<shiparr.length;k++){
-                                    if(shiparr[k].getType() == type){
-                                        shiparr[k].setPositions(x,y);
-                                        shiparr[k].setVisibility(View.GONE);
-                                    }
-                                }
+                                placeShip(x,y);
                         return true;
                      case DragEvent.ACTION_DRAG_ENDED:
                          v.setBackgroundColor(Color.GRAY);
@@ -287,5 +248,90 @@ public class MainActivity extends AppCompatActivity {
                 }
                 return false;
         }
+    }
+    private boolean check(int x, int y){
+        if(direction.equals("n")){
+            for (int i = y; i < y+length ; i++){
+                if(buttons[i][x].getState() == "filled"){
+                    return false;
+                }
+
+            }
+        }
+        else{
+            for (int i = x; i < x+length ; i++){
+                if(buttons[y][i].getState() == "filled"){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    protected void placeShip(int x, int y){
+        if(direction.equals("n")){
+            for (int i = 0; i < length ; i++){
+                buttons[i+y][x].setState("filled");
+                buttons[i+y][x].setShip(type);
+                buttons[i+y][x].setShipPart(i+1);
+                String drawName = buttons[i+y][x].getShip() +"_" + buttons[i+y][x].getShipPart() +"1";
+                int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
+                Drawable part = getDrawable(resId);
+                buttons[i+y][x].setBackground(part);
+
+            }
+        }
+        else{
+            for (int i = 0; i < length ; i++){
+                buttons[y][x+i].setState("filled");
+                buttons[y][x+i].setShip(type);
+                buttons[y][x+i].setShipPart(i+1);
+                String drawName = buttons[y][x+i].getShip() +"_" + buttons[y][x+i].getShipPart();
+                int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
+                Drawable part = getDrawable(resId);
+                buttons[y][x+i].setBackground(part);
+            }
+        }
+        for(int k = 0; k<shiparr.length;k++){
+            if(shiparr[k].getType() == type){
+                shiparr[k].setPositions(x,y);
+                shiparr[k].setVisibility(View.GONE);
+            }
+        }
+    }
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    protected void RandomPlace(){
+        int xLim;
+        int yLim;
+        Random rand = new Random();
+        for(int i = 0; i <shiparr.length; i++){
+            int randDir = rand.nextInt(2);
+            if (randDir == 0){
+                shiparr[i].setDirection("n");
+            }
+            else{
+                shiparr[i].setDirection("e");
+            }
+            type = shiparr[i].getType();
+            length = shiparr[i].getLength();
+            direction = shiparr[i].getDirection();
+            if(direction.equals("n")){
+                xLim = dim;
+                yLim = dim-length;
+            }
+            else {
+                xLim  = dim-length;
+                yLim = dim;
+            }
+            int x = rand.nextInt(xLim);
+            int y = rand.nextInt(yLim);
+            while(!check(x,y)){
+                 x = rand.nextInt(xLim);
+                y = rand.nextInt(yLim);
+            }
+            placeShip(x,y);
+        }
+
     }
 }

@@ -19,8 +19,8 @@ public class PopActivity extends Activity {
         getWindowManager().getDefaultDisplay().getMetrics(dm);
 
         //set pop up dimensions
-        double width = (dm.widthPixels)*.6;
-        double height = (dm.heightPixels)*.5;
+        double width = (dm.widthPixels)*.4;
+        double height = (dm.heightPixels)*.15;
 
         getWindow().setLayout((int)width, (int)height);
 

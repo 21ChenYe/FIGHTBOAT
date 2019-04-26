@@ -17,7 +17,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:gravity="center_horizontal|center_vertical"
-        android:text="Yo your ship got fuuuucked"
+        android:text="Player's Turn"
         android:textAllCaps="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#CDDC39"
@@ -28,5 +28,5 @@
         app:layout_constraintHorizontal_bias="0.563"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.41" />
+        app:layout_constraintVertical_bias="0.35" />
 </android.support.constraint.ConstraintLayout>
