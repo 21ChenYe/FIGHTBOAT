@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- define background for pop up as gradient -->
+        <gradient
+            android:startColor="#3498db"
+            android:endColor="#34bfdb"
+            android:angle="270"
+            />
+    <!-- round out corners of pop up -->
+    <corners
+        android:radius="10dp"
+        />
+
+</shape>
