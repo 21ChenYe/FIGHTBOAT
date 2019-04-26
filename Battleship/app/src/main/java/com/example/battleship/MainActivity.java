@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,8 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    private Tile[][] buttons = new Tile[4][4];
-    private int dim = 4;
+    private Tile[][] buttons = new Tile[10][10];
+    private int dim = 10;
     private TextView player;
     private Ship carrier;
     private Ship battleship;
@@ -36,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         player = findViewById(R.id.text_view_player);
-        for (int i =0; i < 4 ; i++){
-            for (int j = 0; j < 4; j ++){
+        for (int i =0; i < 10 ; i++){
+            for (int j = 0; j < 10; j ++){
                     String buttonId = "button_"  + i + j;
                     int resId = getResources().getIdentifier(buttonId, "id", getPackageName());
                     buttons[i][j] = findViewById(resId);
@@ -49,18 +50,18 @@ public class MainActivity extends AppCompatActivity {
         }
          carrier= findViewById(R.id.carrier_ship);
         carrier.setType("carrier");
-        carrier.setLength(4);
+        carrier.setLength(5);
         myOnLongClickListener LongClickListen = new myOnLongClickListener();
         carrier.setOnLongClickListener(LongClickListen);
 
         battleship = findViewById(R.id.battle_ship);
-        battleship.setType("battleship");
+        battleship.setType("cruiser");
         battleship.setLength(3);
         myOnLongClickListener LongClickListen2 = new myOnLongClickListener();
         battleship.setOnLongClickListener(LongClickListen2);
 
         cruiser = findViewById(R.id.cruiser_ship);
-        cruiser.setType("cruiser");
+        cruiser.setType("destroyer");
         cruiser.setLength(2);
         myOnLongClickListener LongClickListen3 = new myOnLongClickListener();
         cruiser.setOnLongClickListener(LongClickListen3);
@@ -139,6 +140,8 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         }
+        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
         public boolean onDrag(View v, DragEvent event) {
                 Tile t = (Tile) v;
                 final int action = event.getAction();
@@ -198,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 }
                                 break;
-                            case "cruiser":
+                            case "destroyer":
                                 if(!check(x,y)){
                                     return false;
                                 }
@@ -263,19 +266,27 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 if(direction.equals("n")){
                                     for (int i = 0; i < length ; i++){
-                                        buttons[i+y][x].setBackgroundColor(Color.GREEN);
+                                       // buttons[i+y][x].setBackgroundColor(Color.GREEN);
                                         buttons[i+y][x].setState("filled");
                                         buttons[i+y][x].setShip(type);
-                                        buttons[i+y][x].setShipPart(i);
+                                        buttons[i+y][x].setShipPart(i+1);
+                                        String drawName = buttons[i+y][x].getShip() +"_" + buttons[i+y][x].getShipPart();
+                                        int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
+                                        Drawable part = getDrawable(resId);
+                                        buttons[i+y][x].setBackground(part);
 
                                     }
                                 }
                                 else{
                                     for (int i = 0; i < length ; i++){
-                                        buttons[y][x+i].setBackgroundColor(Color.GREEN);
+                                       // buttons[y][x+i].setBackgroundColor(Color.GREEN);
                                         buttons[y][x+i].setState("filled");
                                         buttons[y][x+i].setShip(type);
-                                        buttons[y][x+i].setShipPart(i);
+                                        buttons[y][x+i].setShipPart(i+1);
+                                        String drawName = buttons[y][x+i].getShip() +"_" + buttons[y][x+i].getShipPart();
+                                        int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
+                                        Drawable part = getDrawable(resId);
+                                        buttons[y][x+i].setBackground(part);
                                     }
                                 }
                                 break;
@@ -288,7 +299,11 @@ public class MainActivity extends AppCompatActivity {
                                         buttons[i+y][x].setBackgroundColor(Color.YELLOW);
                                         buttons[i+y][x].setState("filled");
                                         buttons[i+y][x].setShip(type);
-                                        buttons[i+y][x].setShipPart(i);
+                                        buttons[i+y][x].setShipPart(i+1);
+                                        String drawName = buttons[i+y][x].getShip() +"_" + buttons[i+y][x].getShipPart();
+                                        int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
+                                        Drawable part = getDrawable(resId);
+                                        buttons[i+y][x].setBackground(part);
                                     }
                                 }
                                 else{
@@ -296,11 +311,15 @@ public class MainActivity extends AppCompatActivity {
                                         buttons[y][x+i].setBackgroundColor(Color.YELLOW);
                                         buttons[y][x+i].setState("filled");
                                         buttons[y][x+i].setShip(type);
-                                        buttons[y][x+i].setShipPart(i);
+                                        buttons[y][x+i].setShipPart(i+1);
+                                        String drawName = buttons[y][x+i].getShip() +"_" + buttons[y][x+i].getShipPart();
+                                        int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
+                                        Drawable part = getDrawable(resId);
+                                        buttons[y][x+i].setBackground(part);
                                     }
                                 }
                                 break;
-                            case "cruiser":
+                            case "destroyer":
                                 if(!check(x,y)){
                                     return false;
                                 }
@@ -309,7 +328,11 @@ public class MainActivity extends AppCompatActivity {
                                         buttons[i+y][x].setBackgroundColor(Color.RED);
                                         buttons[i+y][x].setState("filled");
                                         buttons[i+y][x].setShip(type);
-                                        buttons[i+y][x].setShipPart(i);
+                                        buttons[i+y][x].setShipPart(i+1);
+                                        String drawName = buttons[i+y][x].getShip() +"_" + buttons[i+y][x].getShipPart();
+                                        int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
+                                        Drawable part = getDrawable(resId);
+                                        buttons[i+y][x].setBackground(part);
                                     }
                                 }
                                 else{
@@ -317,7 +340,11 @@ public class MainActivity extends AppCompatActivity {
                                         buttons[y][x+i].setBackgroundColor(Color.RED);
                                         buttons[y][x+i].setState("filled");
                                         buttons[y][x+i].setShip(type);
-                                        buttons[y][x+i].setShipPart(i);
+                                        buttons[y][x+i].setShipPart(i+1);
+                                        String drawName = buttons[y][x+i].getShip() +"_" + buttons[y][x+i].getShipPart();
+                                        int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
+                                        Drawable part = getDrawable(resId);
+                                        buttons[y][x+i].setBackground(part);
                                     }
                                 }
                                 break;
