@@ -170,8 +170,6 @@ public class MainActivity extends AppCompatActivity {
                                 return false;
                             }
                         }
-                        switch (type){
-                            case "carrier":
                                 if(direction.equals("n")){
                                     if(!check(x,y)){
                                         return false;
@@ -185,40 +183,7 @@ public class MainActivity extends AppCompatActivity {
                                         buttons[y][i].setBackgroundColor(Color.GREEN);
                                     }
                                 }
-                                break;
-                            case "battleship":
-                                if(!check(x,y)){
-                                    return false;
-                                }
-                                if(direction.equals("n")){
-                                    for (int i = y; i < y+length ; i++){
-                                        buttons[i][x].setBackgroundColor(Color.YELLOW);
-                                    }
-                                }
-                                else{
-                                    for (int i = x; i < x+length ; i++){
-                                        buttons[y][i].setBackgroundColor(Color.YELLOW);
-                                    }
-                                }
-                                break;
-                            case "destroyer":
-                                if(!check(x,y)){
-                                    return false;
-                                }
-                                if(direction.equals("n")){
-                                    for (int i = y; i < y+length ; i++){
-                                        buttons[i][x].setBackgroundColor(Color.RED);
-                                    }
-                                }
-                                else{
-                                    for (int i = x; i < x+length ; i++){
-                                        buttons[y][i].setBackgroundColor(Color.RED);
-                                    }
-                                }
-                                break;
-                            default:
-                                buttons[x][y].setBackgroundColor(Color.BLACK);
-                        }
+
                         return true;
                     case DragEvent.ACTION_DRAG_LOCATION:
                         return true;
@@ -259,8 +224,6 @@ public class MainActivity extends AppCompatActivity {
                                 return false;
                             }
                         }
-                        switch (type){
-                            case "carrier":
                                 if(!check(x,y)){
                                     return false;
                                 }
@@ -270,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
                                         buttons[i+y][x].setState("filled");
                                         buttons[i+y][x].setShip(type);
                                         buttons[i+y][x].setShipPart(i+1);
-                                        String drawName = buttons[i+y][x].getShip() +"_" + buttons[i+y][x].getShipPart();
+                                        String drawName = buttons[i+y][x].getShip() +"_" + buttons[i+y][x].getShipPart() +"1";
                                         int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
                                         Drawable part = getDrawable(resId);
                                         buttons[i+y][x].setBackground(part);
@@ -289,68 +252,7 @@ public class MainActivity extends AppCompatActivity {
                                         buttons[y][x+i].setBackground(part);
                                     }
                                 }
-                                break;
-                            case "battleship":
-                                if(!check(x,y)){
-                                    return false;
-                                }
-                                if(direction.equals("n")){
-                                    for (int i = 0; i < length ; i++){
-                                        buttons[i+y][x].setBackgroundColor(Color.YELLOW);
-                                        buttons[i+y][x].setState("filled");
-                                        buttons[i+y][x].setShip(type);
-                                        buttons[i+y][x].setShipPart(i+1);
-                                        String drawName = buttons[i+y][x].getShip() +"_" + buttons[i+y][x].getShipPart();
-                                        int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
-                                        Drawable part = getDrawable(resId);
-                                        buttons[i+y][x].setBackground(part);
-                                    }
-                                }
-                                else{
-                                    for (int i = 0; i < length ; i++){
-                                        buttons[y][x+i].setBackgroundColor(Color.YELLOW);
-                                        buttons[y][x+i].setState("filled");
-                                        buttons[y][x+i].setShip(type);
-                                        buttons[y][x+i].setShipPart(i+1);
-                                        String drawName = buttons[y][x+i].getShip() +"_" + buttons[y][x+i].getShipPart();
-                                        int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
-                                        Drawable part = getDrawable(resId);
-                                        buttons[y][x+i].setBackground(part);
-                                    }
-                                }
-                                break;
-                            case "destroyer":
-                                if(!check(x,y)){
-                                    return false;
-                                }
-                                if(direction.equals("n")){
-                                    for (int i = 0; i < length ; i++){
-                                        buttons[i+y][x].setBackgroundColor(Color.RED);
-                                        buttons[i+y][x].setState("filled");
-                                        buttons[i+y][x].setShip(type);
-                                        buttons[i+y][x].setShipPart(i+1);
-                                        String drawName = buttons[i+y][x].getShip() +"_" + buttons[i+y][x].getShipPart();
-                                        int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
-                                        Drawable part = getDrawable(resId);
-                                        buttons[i+y][x].setBackground(part);
-                                    }
-                                }
-                                else{
-                                    for (int i = 0; i < length ; i++){
-                                        buttons[y][x+i].setBackgroundColor(Color.RED);
-                                        buttons[y][x+i].setState("filled");
-                                        buttons[y][x+i].setShip(type);
-                                        buttons[y][x+i].setShipPart(i+1);
-                                        String drawName = buttons[y][x+i].getShip() +"_" + buttons[y][x+i].getShipPart();
-                                        int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
-                                        Drawable part = getDrawable(resId);
-                                        buttons[y][x+i].setBackground(part);
-                                    }
-                                }
-                                break;
-                            default:
-                                buttons[x][y].setBackgroundColor(Color.BLACK);
-                        }
+
                         return true;
                      case DragEvent.ACTION_DRAG_ENDED:
                          v.setBackgroundColor(Color.GRAY);
