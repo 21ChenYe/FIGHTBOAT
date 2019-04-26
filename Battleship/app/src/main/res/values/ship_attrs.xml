@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="Ship">
+        <attr name="direction" format="string" />
+        <attr name="type" format="string" />
+        <attr name="length" format="integer"/>
+        <attr name="health" format="integer"/>
+
+
+    </declare-styleable>
+</resources>

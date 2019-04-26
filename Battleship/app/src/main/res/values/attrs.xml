@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="Tile">
+        <attr name="posX" format="integer" />
+        <attr name="posY" format="integer" />
+        <attr name="ship" format="string" />
+        <attr name="shipPart" format="integer"/>
+        <attr name="state" format="string">
+        </attr>
+    </declare-styleable>
+</resources>
