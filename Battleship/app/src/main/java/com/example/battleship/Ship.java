@@ -10,7 +10,7 @@ public class Ship extends android.support.v7.widget.AppCompatImageButton {
     private String type;
     private int length;
     private int health;
-    private int[][] positions = new int[length][2]; //holds positions of each part
+    private int[][] positions; //holds positions of each part
     private boolean Sunk;
     private boolean placed;
 
@@ -45,7 +45,10 @@ public class Ship extends android.support.v7.widget.AppCompatImageButton {
     }
     public void setType (String s){ type =s;}
     public void setDirection(String c){ direction = c;}
-    public void setLength(int l) {length = l;}
+    public void setLength(int l) {
+        length = l;
+        positions = new int[length][2];
+    }
     public boolean isSunk () { return Sunk;}
     public boolean isPlaced() {return placed;}
     public void hit(int x, int y){

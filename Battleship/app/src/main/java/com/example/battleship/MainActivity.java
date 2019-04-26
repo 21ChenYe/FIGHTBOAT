@@ -229,7 +229,6 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 if(direction.equals("n")){
                                     for (int i = 0; i < length ; i++){
-                                       // buttons[i+y][x].setBackgroundColor(Color.GREEN);
                                         buttons[i+y][x].setState("filled");
                                         buttons[i+y][x].setShip(type);
                                         buttons[i+y][x].setShipPart(i+1);
@@ -242,7 +241,6 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 else{
                                     for (int i = 0; i < length ; i++){
-                                       // buttons[y][x+i].setBackgroundColor(Color.GREEN);
                                         buttons[y][x+i].setState("filled");
                                         buttons[y][x+i].setShip(type);
                                         buttons[y][x+i].setShipPart(i+1);
@@ -252,7 +250,13 @@ public class MainActivity extends AppCompatActivity {
                                         buttons[y][x+i].setBackground(part);
                                     }
                                 }
-
+                                Ship[] shiparr = {carrier,battleship,cruiser};
+                                for(int k = 0; k<shiparr.length;k++){
+                                    if(shiparr[k].getType() == type){
+                                        shiparr[k].setPositions(x,y);
+                                        shiparr[k].setVisibility(View.GONE);
+                                    }
+                                }
                         return true;
                      case DragEvent.ACTION_DRAG_ENDED:
                          v.setBackgroundColor(Color.GRAY);
