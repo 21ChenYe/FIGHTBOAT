@@ -365,6 +365,8 @@ public class MainActivity extends AppCompatActivity {
         private Ship sub;
         private Vector directions = new Vector();
         private boolean success = true;
+        private int x;
+        private int y;
         Ship[] shiparr;
         public Computer(){
             carrier = findViewById(R.id.carrier_ship);
@@ -424,9 +426,9 @@ public class MainActivity extends AppCompatActivity {
 
         public void RandomHit() {
             Random ran = new Random();
-            int x = ran.nextInt(dim);
-            int y = ran.nextInt(dim);
             if(origin[0] == -1) {
+                x = ran.nextInt(dim);
+                 y = ran.nextInt(dim);
                 while (!buttons[x][y].getState().equals("filled") && !buttons[x][y].getState().equals("empty")) {
                     x = ran.nextInt(dim);
                     y = ran.nextInt(dim);
@@ -444,47 +446,22 @@ public class MainActivity extends AppCompatActivity {
                     directions.add("s");
                     directions.add("e");
                     directions.add("w");
-                    if (origin[0] == 0) {
-                        directions.remove("n");
-                    }
-                    if (origin[0] == 10) {
-                        directions.remove("s");
-                    }
-                    if (origin[1] == 0) {
-                        directions.remove("w");
-                    }
-                    if (origin[1] == 10) {
-                        directions.remove("e");
-                    }
                     int choice = ran.nextInt(directions.size());
                     directionAttack = (String) directions.get(choice);
+                    while (!checkDirection(directionAttack)){
+                        choice = ran.nextInt(directions.size());
+                        directionAttack = (String) directions.get(choice);
+                    }
                 }
                 else if (!success){
                     directions.remove(directionAttack);
                     directionAttack = (String) directions.get(0);
+                    while (!checkDirection(directionAttack)){
+                       int choice = ran.nextInt(directions.size());
+                        directionAttack = (String) directions.get(choice);
+                    }
                     current[0] = origin[0];
                     current[1] = origin[1];
-                }
-                switch (directionAttack){
-                    case "w":
-                        x = current[0];
-                        y = current[1]+1;
-                        current[1]++;
-                        break;
-                    case "s":
-                        x = current[0]+1;
-                        current[0]++;
-                        y = current[1];
-                        break;
-                    case "e":
-                        x = current[0];
-                        y = current[1]-1;
-                        current[1]--;
-                        break;
-                    case "n":
-                        x = current[0]-1;
-                        current[0]--;
-                        y = current[1];
                 }
             }
             if(buttons[x][y].getState().equals("filled")){
@@ -493,6 +470,11 @@ public class MainActivity extends AppCompatActivity {
             else {
                 success = false;
             }
+            while (!checkDirection(directionAttack)){
+               int choice = ran.nextInt(directions.size());
+                directionAttack = (String) directions.get(choice);
+            }
+            changeCurrent(directionAttack);
             buttons[x][y].performClick();
             if(buttons[x][y].getState().equals("sunk")){
                 origin[0] = -1;
@@ -500,5 +482,55 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }
+        private boolean checkDirection(String d){
+            switch (d){
+                case "n":
+                    if (origin[0] == 0 || (!buttons[origin[0]-1][origin[1]].getState().equals("empty") && !buttons[origin[0]-1][origin[1]].getState().equals("filled"))){
+                        directions.remove("n");
+                        return false;
+                    }
+                case "e":
+                    if (origin[1] == 10  || (!buttons[origin[0]][origin[1]+1].getState().equals("empty") && !buttons[origin[0]][origin[1]+1].getState().equals("filled"))) {
+                        directions.remove("e");
+                        return false;
+                    }
+                case "s":
+                    if (origin[0] == 10  || (!buttons[origin[0]+1][origin[1]].getState().equals("empty") && !buttons[origin[0]+1][origin[1]].getState().equals("filled"))) {
+                        directions.remove("s");
+                        return false;
+                    }
+                case "w":
+                    if (origin[1] == 0 || (!buttons[origin[0]][origin[1]-1].getState().equals("empty") && !buttons[origin[0]][origin[1]-1].getState().equals("filled"))) {
+                        directions.remove("w");
+                        return false;
+                    }
+            }
+            return true;
+        }
+        private void changeCurrent(String d){
+            switch (d){
+                case "e":
+                    x = current[0];
+                    y = current[1]+1;
+                    current[1]++;
+                    break;
+                case "s":
+                    x = current[0]+1;
+                    current[0]++;
+                    y = current[1];
+                    break;
+                case "w":
+                    x = current[0];
+                    y = current[1]-1;
+                    current[1]--;
+                    break;
+                case "n":
+                    x = current[0]-1;
+                    current[0]--;
+                    y = current[1];
+                    break;
+            }
+        }
+        }
     }
-}
+
