@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.content.Intent;
+import android.widget.TextView;
 
 public class MainMenu extends AppCompatActivity {
 
@@ -22,7 +23,7 @@ public class MainMenu extends AppCompatActivity {
     }
 
     private void configureButton1() {
-            Button button1 = (Button) findViewById(R.id.button1);
+            TextView button1 = (TextView) findViewById(R.id.button1);
             button1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
