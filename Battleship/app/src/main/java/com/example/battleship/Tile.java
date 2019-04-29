@@ -10,7 +10,7 @@ public class Tile extends android.support.v7.widget.AppCompatButton {
         int posY;
         int shipPart;
         String ship;
-        String state;
+        int state;
     public Tile(Context context, AttributeSet attrs){
         super(context,attrs);
     }
@@ -40,10 +40,10 @@ public class Tile extends android.support.v7.widget.AppCompatButton {
     public void setShip(String s){
             ship = s;
     }
-    public String getState(){
+    public int getState(){
             return state;
     }
-    public void setState(String s){
+    public void setState(int s){
             state = s;
     }
 

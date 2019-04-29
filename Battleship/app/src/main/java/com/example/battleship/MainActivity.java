@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +22,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 import java.util.Vector;
 
@@ -44,87 +47,119 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        comp = new Computer();
-        player = findViewById(R.id.text_view_player);
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                String buttonId = "button_" + i + j;
-                int resId = getResources().getIdentifier(buttonId, "id", getPackageName());
-                buttons[i][j] = findViewById(resId);
-                buttons[i][j].setPosX(j);
-                buttons[i][j].setPosY(i);
-                buttons[i][j].setState("empty");
-                buttons[i][j].setShip("");
-                myDragEventListener dragListen = new myDragEventListener();
-                buttons[i][j].setOnDragListener(dragListen);
-                myOnClickListener clickListen = new myOnClickListener();
-                buttons[i][j].setOnClickListener(clickListen);
+        if(savedInstanceState != null) {
+            Log.v("bundle", "Recovered");
+            boolean see = savedInstanceState.getBoolean("check");
+            if (see) {
+                Toast.makeText(getApplicationContext(), "We have communication", Toast.LENGTH_LONG).show();
             }
         }
-        carrier = findViewById(R.id.carrier_ship);
-        carrier.setType("carrier");
-        carrier.setLength(5);
-
-
-        battleship = findViewById(R.id.battle_ship);
-        battleship.setType("cruiser");
-        battleship.setLength(3);
-
-
-        cruiser = findViewById(R.id.cruiser_ship);
-        cruiser.setType("destroyer");
-        cruiser.setLength(2);
-
-
-        sub = findViewById(R.id.sub_ship);
-        sub.setType("sub");
-        sub.setLength(3);
-
-        Ship[] temp = {battleship, cruiser, sub, carrier};
-        shiparr = temp;
-        for (int ship = 0; ship < shiparr.length; ship++) {
-            myOnLongClickListener LongClickListen = new myOnLongClickListener();
-            shiparr[ship].setOnLongClickListener(LongClickListen);
-        }
-
-        buttonRotate = findViewById(R.id.rotate_button);
-        buttonRotate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (carrier.getRotation() == 0) {
-                    carrier.setRotation(carrier.getRotation() + 90);
-                    carrier.setDirection("n");
-                    battleship.setRotation(battleship.getRotation() + 90);
-                    battleship.setDirection("n");
-                    cruiser.setRotation(cruiser.getRotation() + 90);
-                    cruiser.setDirection("n");
-                    sub.setRotation(sub.getRotation() + 90);
-                    sub.setDirection("n");
-                } else {
-                    carrier.setRotation(carrier.getRotation() - 90);
-                    carrier.setDirection("e");
-                    battleship.setRotation(battleship.getRotation() - 90);
-                    battleship.setDirection("e");
-                    cruiser.setRotation(cruiser.getRotation() - 90);
-                    cruiser.setDirection("e");
-                    sub.setRotation(sub.getRotation() - 90);
-                    sub.setDirection("e");
+        else {
+            setContentView(R.layout.activity_main);
+            comp = new Computer();
+            player = findViewById(R.id.text_view_player);
+            for (int i = 0; i < 10; i++) {
+                for (int j = 0; j < 10; j++) {
+                    String buttonId = "button_" + i + j;
+                    int resId = getResources().getIdentifier(buttonId, "id", getPackageName());
+                    buttons[i][j] = findViewById(resId);
+                    buttons[i][j].setPosX(j);
+                    buttons[i][j].setPosY(i);
+                    buttons[i][j].setState(0);
+                    buttons[i][j].setShip("");
+                    myDragEventListener dragListen = new myDragEventListener();
+                    buttons[i][j].setOnDragListener(dragListen);
+                    myOnClickListener clickListen = new myOnClickListener();
+                    buttons[i][j].setOnClickListener(clickListen);
                 }
             }
-        });
-        comp.RandomPlace();
-        Intent intention = new Intent(getApplicationContext(), PopActivity.class);
-        startActivity(intention);
-        randButton = findViewById(R.id.randButton);
-        randButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                comp.RandomHit();
-            }
-        });
-    }
+            carrier = findViewById(R.id.carrier_ship);
+            carrier.setType("carrier");
+            carrier.setLength(5);
 
+
+            battleship = findViewById(R.id.battle_ship);
+            battleship.setType("cruiser");
+            battleship.setLength(3);
+
+
+            cruiser = findViewById(R.id.cruiser_ship);
+            cruiser.setType("destroyer");
+            cruiser.setLength(2);
+
+
+            sub = findViewById(R.id.sub_ship);
+            sub.setType("sub");
+            sub.setLength(3);
+
+            Ship[] temp = {battleship, cruiser, sub, carrier};
+            shiparr = temp;
+            for (int ship = 0; ship < shiparr.length; ship++) {
+                myOnLongClickListener LongClickListen = new myOnLongClickListener();
+                shiparr[ship].setOnLongClickListener(LongClickListen);
+            }
+
+            buttonRotate = findViewById(R.id.rotate_button);
+            buttonRotate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (carrier.getRotation() == 0) {
+                        carrier.setRotation(carrier.getRotation() + 90);
+                        carrier.setDirection("n");
+                        battleship.setRotation(battleship.getRotation() + 90);
+                        battleship.setDirection("n");
+                        cruiser.setRotation(cruiser.getRotation() + 90);
+                        cruiser.setDirection("n");
+                        sub.setRotation(sub.getRotation() + 90);
+                        sub.setDirection("n");
+                    } else {
+                        carrier.setRotation(carrier.getRotation() - 90);
+                        carrier.setDirection("e");
+                        battleship.setRotation(battleship.getRotation() - 90);
+                        battleship.setDirection("e");
+                        cruiser.setRotation(cruiser.getRotation() - 90);
+                        cruiser.setDirection("e");
+                        sub.setRotation(sub.getRotation() - 90);
+                        sub.setDirection("e");
+                    }
+                }
+            });
+            Intent intention = new Intent(getApplicationContext(), PopActivity.class);
+            intention.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intention);
+            randButton = findViewById(R.id.randButton);
+            randButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    comp.RandomHit();
+                }
+            });
+            //Toast.makeText(getApplicationContext(),"Created",Toast.LENGTH_LONG).show();
+        }
+        File directory = getFilesDir();
+        File file = new File(directory, "config.txt");
+        file.delete();
+    }
+    @Override
+    protected void onSaveInstanceState(Bundle state){
+        Log.v("bundle", "Saved");
+        state.putBoolean("check", true);
+        super.onSaveInstanceState(state);
+    }
+    @Override
+    protected void onStart(){
+        super.onStart();
+        Log.v("bundle", "Im here");
+    }
+    @Override
+    protected void onRestoreInstanceState(Bundle state){
+        Log.v("bundle", "Fully restored");
+        super.onRestoreInstanceState(state);
+        boolean check = state.getBoolean("check");
+        if(check){
+            Log.v("bundle", "we're gucci");
+        }
+    }
     protected class myOnLongClickListener implements View.OnLongClickListener {
         @Override
         public boolean onLongClick(final View v) {
@@ -162,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
         public boolean onDrag(View v, DragEvent event) {
             Tile t = (Tile) v;
             final int action = event.getAction();
-            if (t.getState() == "filled") {
+            if (t.getState() == 1) {
                 return false;
             }
 
@@ -264,14 +299,14 @@ public class MainActivity extends AppCompatActivity {
     private boolean check(int x, int y) {
         if (direction.equals("n")) {
             for (int i = y; i < y + length; i++) {
-                if (buttons[i][x].getState() == "filled") {
+                if (buttons[i][x].getState() == 1) {
                     return false;
                 }
 
             }
         } else {
             for (int i = x; i < x + length; i++) {
-                if (buttons[y][i].getState() == "filled") {
+                if (buttons[y][i].getState() == 1) {
                     return false;
                 }
             }
@@ -284,7 +319,7 @@ public class MainActivity extends AppCompatActivity {
     protected void placeShip(int x, int y) {
         if (direction.equals("n")) {
             for (int i = 0; i < length; i++) {
-                buttons[i + y][x].setState("filled");
+                buttons[i + y][x].setState(1);
                 buttons[i + y][x].setShip(type);
                 buttons[i + y][x].setShipPart(i + 1);
                 String drawName = buttons[i + y][x].getShip() + "_" + buttons[i + y][x].getShipPart() + "1";
@@ -295,7 +330,7 @@ public class MainActivity extends AppCompatActivity {
             }
         } else {
             for (int i = 0; i < length; i++) {
-                buttons[y][x + i].setState("filled");
+                buttons[y][x + i].setState(1);
                 buttons[y][x + i].setShip(type);
                 buttons[y][x + i].setShipPart(i + 1);
                 String drawName = buttons[y][x + i].getShip() + "_" + buttons[y][x + i].getShipPart();
@@ -304,11 +339,19 @@ public class MainActivity extends AppCompatActivity {
                 buttons[y][x + i].setBackground(part);
             }
         }
+        boolean AllPLaced = true;
         for (int k = 0; k < shiparr.length; k++) {
             if (shiparr[k].getType() == type) {
                 shiparr[k].setPositions(x, y);
                 shiparr[k].setVisibility(View.GONE);
             }
+            if(shiparr[k].isPlaced() == false){
+                AllPLaced = false;
+            }
+        }
+        if (AllPLaced){
+            Intent change = new Intent(MainActivity.this, ComputerActivity.class);
+            startActivity(change);
         }
     }
 
@@ -318,12 +361,12 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             Tile t = (Tile) v;
-            if (t.getState().equals("empty")) {
-                t.setState("missed");
+            if (t.getState() == 0) {
+                t.setState(4);
                 t.setBackgroundColor(Color.BLACK);
                 //Add popup message saying missed
-            } else if (t.getState().equals("filled")) {
-                t.setState("hit");
+            } else if (t.getState() == 1) {
+                t.setState(2);
                 String name = t.getShip();
                 for (int ship = 0; ship < shiparr.length; ship++) {
                     if (shiparr[ship].getType().equals(name)) {
@@ -332,13 +375,15 @@ public class MainActivity extends AppCompatActivity {
                             sink(name);
                             //Add popup message saying sunk ...
                         } else {
-                            t.setState("hit");
+                            t.setState(2);
                             t.setBackgroundColor(Color.RED);
                             //Add popup message saying hit
                         }
                     }
                 }
             }
+            Intent goDown = new Intent(MainActivity.this,ComputerActivity.class);
+            startActivity(goDown);
 
         }
     }
@@ -347,7 +392,7 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < dim; i++) {
             for (int j = 0; j < dim; j++) {
                 if (buttons[i][j].getShip().equals(name)) {
-                    buttons[i][j].setState("sunk");
+                    buttons[i][j].setState(3);
                     buttons[i][j].setBackgroundColor(Color.YELLOW);
                 }
             }
@@ -429,11 +474,11 @@ public class MainActivity extends AppCompatActivity {
             if(origin[0] == -1) {
                 x = ran.nextInt(dim);
                  y = ran.nextInt(dim);
-                while (!buttons[x][y].getState().equals("filled") && !buttons[x][y].getState().equals("empty")) {
+                while (!(buttons[x][y].getState()== 1) && !(buttons[x][y].getState()== 0)) {
                     x = ran.nextInt(dim);
                     y = ran.nextInt(dim);
                 }
-                if(buttons[x][y].getState().equals("filled")){
+                if(buttons[x][y].getState()== 1){
                     origin[0] = x;
                     origin[1] = y;
                     current[0] = x;
@@ -464,7 +509,7 @@ public class MainActivity extends AppCompatActivity {
                     current[1] = origin[1];
                 }
             }
-            if(buttons[x][y].getState().equals("filled")){
+            if(buttons[x][y].getState()== 1){
                 success = true;
             }
             else {
@@ -476,7 +521,7 @@ public class MainActivity extends AppCompatActivity {
             }
             changeCurrent(directionAttack);
             buttons[x][y].performClick();
-            if(buttons[x][y].getState().equals("sunk")){
+            if(buttons[x][y].getState() ==3){
                 origin[0] = -1;
                 directionAttack = "";
 
@@ -485,22 +530,22 @@ public class MainActivity extends AppCompatActivity {
         private boolean checkDirection(String d){
             switch (d){
                 case "n":
-                    if (origin[0] == 0 || (!buttons[origin[0]-1][origin[1]].getState().equals("empty") && !buttons[origin[0]-1][origin[1]].getState().equals("filled"))){
+                    if (origin[0] == 0 || (!(buttons[origin[0]-1][origin[1]].getState()== 0) && !(buttons[origin[0]-1][origin[1]].getState()== 1))){
                         directions.remove("n");
                         return false;
                     }
                 case "e":
-                    if (origin[1] == 10  || (!buttons[origin[0]][origin[1]+1].getState().equals("empty") && !buttons[origin[0]][origin[1]+1].getState().equals("filled"))) {
+                    if (origin[1] == 10  || (!(buttons[origin[0]][origin[1]+1].getState()== 0) && !(buttons[origin[0]][origin[1]+1].getState()== 1))) {
                         directions.remove("e");
                         return false;
                     }
                 case "s":
-                    if (origin[0] == 10  || (!buttons[origin[0]+1][origin[1]].getState().equals("empty") && !buttons[origin[0]+1][origin[1]].getState().equals("filled"))) {
+                    if (origin[0] == 10  || (!(buttons[origin[0]+1][origin[1]].getState()== 0) && !(buttons[origin[0]+1][origin[1]].getState()== 1))) {
                         directions.remove("s");
                         return false;
                     }
                 case "w":
-                    if (origin[1] == 0 || (!buttons[origin[0]][origin[1]-1].getState().equals("empty") && !buttons[origin[0]][origin[1]-1].getState().equals("filled"))) {
+                    if (origin[1] == 0 || (!(buttons[origin[0]][origin[1]-1].getState()== 0) && !(buttons[origin[0]][origin[1]-1].getState()== 1))) {
                         directions.remove("w");
                         return false;
                     }

@@ -3,6 +3,7 @@ package com.example.battleship;
 import android.content.Context;
 import android.util.AttributeSet;
 
+import java.util.Vector;
 
 
 public class Ship extends android.support.v7.widget.AppCompatImageButton {
@@ -25,14 +26,14 @@ public class Ship extends android.support.v7.widget.AppCompatImageButton {
         switch(direction){
             case "n":
                 for(int i = 0; i<length; i++){
-                    positions[i][0] = x;
-                    positions[i][1] = y+i;
+                    positions[i][0] = y+i;
+                    positions[i][1] = x;
                 }
                 break;
             case "e":
                 for(int i = 0; i<length; i++){
-                    positions[i][0] = x+i;
-                    positions[i][1] = y;
+                    positions[i][0] = y;
+                    positions[i][1] = x+i;
                 }
                 break;
             default:
@@ -61,6 +62,21 @@ public class Ship extends android.support.v7.widget.AppCompatImageButton {
     public String getType() { return type;}
     public int getLength(){ return length;}
     public String getDirection() {return direction;}
+    public Vector getPositions() {
+        Vector vec = new Vector();
+        for (int i = 0; i < length; i++) {
+            vec.add(positions[i][0]);
+            vec.add(positions[i][1]);
+        }
+        return vec;
+    }
+    public int getHealth() {return health;}
+    public void setHealth(int h) {
+        health = h;
+        if(h==0){
+        Sunk = true;
+        }
+    }
 
 
 

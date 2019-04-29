@@ -1,0 +1,861 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="660dp"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="135dp">
+
+
+        <TextView
+            android:id="@+id/text_view_player2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="66dp"
+            android:tag=""
+            android:text="Enemy's Map"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="30sp" />
+
+
+        <com.example.battleship.Ship
+            android:id="@+id/carrier_ship2"
+            android:layout_width="70dp"
+            android:layout_height="31dp"
+            android:layout_below="@+id/text_view_player"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="119dp"
+            android:layout_marginLeft="119dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/carrier"
+            android:minHeight="48dp"
+            android:visibility="gone" />
+
+        <com.example.battleship.Ship
+            android:id="@+id/battle_ship2"
+            android:layout_width="69dp"
+            android:layout_height="30dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="28dp"
+            android:layout_marginLeft="28dp"
+            android:layout_marginTop="55dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginBottom="0dp"
+            android:background="@drawable/bship"
+            android:visibility="gone" />
+
+        <com.example.battleship.Ship
+            android:id="@+id/cruiser_ship2"
+            android:layout_width="69dp"
+            android:layout_height="31dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="205dp"
+            android:layout_marginLeft="205dp"
+            android:layout_marginTop="54dp"
+            android:background="@drawable/destroyer"
+            android:visibility="gone" />
+
+        <com.example.battleship.Ship
+            android:id="@+id/sub_ship2"
+            android:layout_width="69dp"
+            android:layout_height="31dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="286dp"
+            android:layout_marginLeft="286dp"
+            android:layout_marginTop="54dp"
+            android:background="@drawable/sub"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_002"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_012"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_022"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_032"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_042"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_052"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_062"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_072"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_082"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_092"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_102"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_112"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_122"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_132"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_142"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_152"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_162"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_172"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_182"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_192"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_202"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_212"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_222"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_232"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_242"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_252"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_262"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_272"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_282"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_292"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_302"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_312"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_322"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_332"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_342"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_352"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_362"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_372"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_382"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_392"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_402"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_412"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_422"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_432"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_442"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_452"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_462"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_472"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_482"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_492"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_502"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_512"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_522"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_532"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_542"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_552"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_562"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_572"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_582"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_592"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_602"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_612"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_622"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_632"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_642"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_652"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_662"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_672"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_682"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_692"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_702"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_712"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_722"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_732"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_742"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_752"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_762"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_772"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_782"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_792"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_802"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_812"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_822"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_832"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_842"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_852"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_862"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_872"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_882"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_892"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_902"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_912"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_922"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_932"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_942"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_952"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_962"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_972"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_982"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+        <com.example.battleship.Tile
+            android:id="@+id/button_992"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:state="empty" />
+
+    </LinearLayout>
+</LinearLayout>
