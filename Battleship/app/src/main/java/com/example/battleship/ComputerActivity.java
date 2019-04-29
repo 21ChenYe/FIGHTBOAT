@@ -333,7 +333,7 @@ public class ComputerActivity extends AppCompatActivity {
                     carrier.setDirection("" + s.charAt(200));
                     int w = Character.getNumericValue(s.charAt(202));
                     int q = Character.getNumericValue(s.charAt(204));
-                    carrier.setPositions(w,q);
+                    carrier.setPositions(q,w);
                     for(int j = 202; j <221; j+=4){
                         int y =  Character.getNumericValue(s.charAt(j));
                         int x = Character.getNumericValue(s.charAt(j+2));
@@ -344,7 +344,7 @@ public class ComputerActivity extends AppCompatActivity {
                     battleship.setDirection("" + s.charAt(224));
                      w = Character.getNumericValue(s.charAt(226));
                      q = Character.getNumericValue(s.charAt(228));
-                     battleship.setPositions(w,q);
+                     battleship.setPositions(q,w);
                     for(int j = 226; j <237; j+=4){
                         int y =  Character.getNumericValue(s.charAt(j));
                         int x = Character.getNumericValue(s.charAt(j+2));
@@ -355,7 +355,7 @@ public class ComputerActivity extends AppCompatActivity {
                     cruiser.setDirection("" + s.charAt(240));
                     w = Character.getNumericValue(s.charAt(242));
                     q = Character.getNumericValue(s.charAt(244));
-                    cruiser.setPositions(w,q);
+                    cruiser.setPositions(q,w);
                     for(int j = 242; j <249; j+=4){
                         int y =  Character.getNumericValue(s.charAt(j));
                         int x = Character.getNumericValue(s.charAt(j+2));
@@ -366,7 +366,7 @@ public class ComputerActivity extends AppCompatActivity {
                     sub.setDirection("" + s.charAt(252));
                     w = Character.getNumericValue(s.charAt(254));
                     q = Character.getNumericValue(s.charAt(256));
-                    sub.setPositions(w,q);
+                    sub.setPositions(q,w);
                     for(int j = 254; j <265; j+=4){
                         int y =  Character.getNumericValue(s.charAt(j));
                         int x = Character.getNumericValue(s.charAt(j+2));

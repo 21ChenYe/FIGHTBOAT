@@ -33,7 +33,7 @@ public class Ship extends android.support.v7.widget.AppCompatImageButton {
             case "e":
                 for(int i = 0; i<length; i++){
                     positions[i][0] = y;
-                    positions[i][1] = x+1;
+                    positions[i][1] = x+i;
                 }
                 break;
             default:
