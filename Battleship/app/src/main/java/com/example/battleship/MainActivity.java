@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
     private String direction;
     private int length;
     private Computer comp;
-    private Button randButton;
     private boolean AllPlaced;
     Ship[] shiparr;
 
@@ -306,7 +305,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                 String drawName = buttons[i + y][x].getShip() + "_" + buttons[i + y][x].getShipPart() + "1";
                 int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
                 Drawable part = getDrawable(resId);
-                buttons[i + y][x].setForeground(part);
+                buttons[i + y][x].setBackground(part);
 
             }
         } else {
@@ -317,7 +316,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                 String drawName = buttons[y][x + i].getShip() + "_" + buttons[y][x + i].getShipPart();
                 int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
                 Drawable part = getDrawable(resId);
-                buttons[y][x + i].setForeground(part);
+                buttons[y][x + i].setBackground(part);
             }
         }
          AllPlaced = true;
@@ -386,7 +385,15 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                 }
             }
         }
-        //boolean AllSunk
+        boolean AllSunk = true;
+        for(int k = 0; k < shiparr.length; k++){
+            if(!shiparr[k].isSunk()){
+                AllSunk = false;
+            }
+        }
+        if(AllSunk){
+
+        }
     }
 
     protected class Computer{
@@ -507,6 +514,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                 success = false;
             }
             while (!checkDirection(directionAttack)){
+                Log.v("heck","fuck");
                int choice = ran.nextInt(directions.size());
                 directionAttack = (String) directions.get(choice);
             }

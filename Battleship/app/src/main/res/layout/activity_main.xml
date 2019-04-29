@@ -63,7 +63,7 @@
             android:layout_marginTop="55dp"
             android:layout_marginRight="0dp"
             android:layout_marginBottom="0dp"
-            android:background="@drawable/bship" />
+            android:background="@drawable/sub" />
 
         <com.example.battleship.Ship
             android:id="@+id/cruiser_ship"

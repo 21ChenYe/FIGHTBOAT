@@ -48,6 +48,7 @@ public class ComputerActivity extends AppCompatActivity {
         private Computer comp;
         Ship[] shiparr;
 
+        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +65,7 @@ public class ComputerActivity extends AppCompatActivity {
                     buttons[i][j].setPosY(i);
                     buttons[i][j].setState(0);
                     buttons[i][j].setShip("");
+                    buttons[i][j].setBackground(getDrawable(R.drawable.ocean_tile));
                     myOnClickListener clickListen = new myOnClickListener();
                     buttons[i][j].setOnClickListener(clickListen);
                 }
@@ -143,10 +145,10 @@ public class ComputerActivity extends AppCompatActivity {
                     buttons[i + y][x].setState(1);
                     buttons[i + y][x].setShip(type);
                     buttons[i + y][x].setShipPart(i + 1);
-                    String drawName = buttons[i + y][x].getShip() + "_" + buttons[i + y][x].getShipPart() + "1";
-                    int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
-                    Drawable part = getDrawable(resId);
-                    buttons[i + y][x].setBackground(part);
+                   // String drawName = buttons[i + y][x].getShip() + "_" + buttons[i + y][x].getShipPart() + "1";
+                   // int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
+                  //  Drawable part = getDrawable(resId);
+                  //  buttons[i + y][x].setBackground(part);
 
                 }
             } else {
@@ -154,10 +156,10 @@ public class ComputerActivity extends AppCompatActivity {
                     buttons[y][x + i].setState(1);
                     buttons[y][x + i].setShip(type);
                     buttons[y][x + i].setShipPart(i + 1);
-                    String drawName = buttons[y][x + i].getShip() + "_" + buttons[y][x + i].getShipPart();
-                    int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
-                    Drawable part = getDrawable(resId);
-                    buttons[y][x + i].setBackground(part);
+                  //  String drawName = buttons[y][x + i].getShip() + "_" + buttons[y][x + i].getShipPart();
+                  //  int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
+                  //  Drawable part = getDrawable(resId);
+                   // buttons[y][x + i].setBackground(part);
                 }
             }
             for (int k = 0; k < shiparr.length; k++) {
@@ -374,6 +376,8 @@ public class ComputerActivity extends AppCompatActivity {
                     }
                     sub.setHealth(Character.getNumericValue(s.charAt(266)));
                 }
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void FlashMap(){
         for(int i = 0; i <10; i++){
             for(int j = 0; j<10; j++){
@@ -381,7 +385,7 @@ public class ComputerActivity extends AppCompatActivity {
                 switch (State){
                     case 0:
                     case 1:
-                        buttons[i][j].setBackgroundColor(Color.BLUE);
+                        buttons[i][j].setBackground(getDrawable(R.drawable.ocean_tile));
                         break;
                     case 2:
                         buttons[i][j].setBackgroundColor(Color.RED);
