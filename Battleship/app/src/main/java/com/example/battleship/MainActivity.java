@@ -3,6 +3,7 @@ package com.example.battleship;
 import android.annotation.TargetApi;
 import android.content.ClipData;
 import android.content.ClipDescription;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -11,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,7 +29,7 @@ import java.io.IOException;
 import java.util.Random;
 import java.util.Vector;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DialogInterface.OnDismissListener {
     private Tile[][] buttons = new Tile[10][10];
     private int dim = 10;
     private TextView player;
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private int length;
     private Computer comp;
     private Button randButton;
+    private boolean AllPlaced;
     Ship[] shiparr;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -124,9 +127,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
-            Intent intention = new Intent(getApplicationContext(), PopActivity.class);
-            intention.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(intention);
+            FragmentManager fm = getSupportFragmentManager();
+            popFrag editNameDialogFragment = popFrag.newInstance("Place your Ships");
+            editNameDialogFragment.show(fm, "fragment_edit_name");
+
             randButton = findViewById(R.id.randButton);
             randButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -140,24 +144,19 @@ public class MainActivity extends AppCompatActivity {
         File file = new File(directory, "config.txt");
         file.delete();
     }
+
     @Override
-    protected void onSaveInstanceState(Bundle state){
-        Log.v("bundle", "Saved");
-        state.putBoolean("check", true);
-        super.onSaveInstanceState(state);
+    protected void onResume(){
+        super.onResume();
+        //comp.RandomHit();
+
     }
+
     @Override
-    protected void onStart(){
-        super.onStart();
-        Log.v("bundle", "Im here");
-    }
-    @Override
-    protected void onRestoreInstanceState(Bundle state){
-        Log.v("bundle", "Fully restored");
-        super.onRestoreInstanceState(state);
-        boolean check = state.getBoolean("check");
-        if(check){
-            Log.v("bundle", "we're gucci");
+    public void onDismiss(final DialogInterface dialog) {
+        if(AllPlaced){
+             Intent goDown = new Intent(MainActivity.this,ComputerActivity.class);
+             startActivity(goDown);
         }
     }
     protected class myOnLongClickListener implements View.OnLongClickListener {
@@ -339,17 +338,19 @@ public class MainActivity extends AppCompatActivity {
                 buttons[y][x + i].setBackground(part);
             }
         }
-        boolean AllPLaced = true;
+         AllPlaced = true;
         for (int k = 0; k < shiparr.length; k++) {
             if (shiparr[k].getType() == type) {
                 shiparr[k].setPositions(x, y);
                 shiparr[k].setVisibility(View.GONE);
             }
             if(shiparr[k].isPlaced() == false){
-                AllPLaced = false;
+                AllPlaced = false;
             }
         }
-        if (AllPLaced){
+        if (AllPlaced){
+            player.setText("Your Map");
+            buttonRotate.setVisibility(View.GONE);
             Intent change = new Intent(MainActivity.this, ComputerActivity.class);
             startActivity(change);
         }
@@ -382,8 +383,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
-            Intent goDown = new Intent(MainActivity.this,ComputerActivity.class);
-            startActivity(goDown);
+            FragmentManager fm = getSupportFragmentManager();
+            popFrag editNameDialogFragment = popFrag.newInstance("Computer attacked");
+            editNameDialogFragment.show(fm, "fragment_edit_name");
+
 
         }
     }

@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -41,12 +42,10 @@ public class ComputerActivity extends AppCompatActivity {
         private Ship battleship;
         private Ship cruiser;
         private Ship sub;
-        private Button buttonRotate;
         private String type;
         private String direction;
         private int length;
         private Computer comp;
-        private Button randButton;
         Ship[] shiparr;
 
         @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -111,8 +110,9 @@ public class ComputerActivity extends AppCompatActivity {
                 }
                 comp.RandomPlace();
             }
-                Intent intention = new Intent(getApplicationContext(), PopActivity.class);
-                startActivity(intention);
+            FragmentManager fm = getSupportFragmentManager();
+            popFrag editNameDialogFragment = popFrag.newInstance("Choose Your Attack");
+            editNameDialogFragment.show(fm, "fragment_edit_name");
             }
 
 
