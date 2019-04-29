@@ -101,6 +101,7 @@ public class ComputerActivity extends AppCompatActivity {
                 String read = readFromFile(getApplicationContext());
                Log.v("length",read);
                 LoadGame(read);
+                FlashMap();
             }
             else{
                 try {
@@ -180,6 +181,10 @@ public class ComputerActivity extends AppCompatActivity {
                 } else if (t.getState()== 1) {
                     t.setState(2);
                     String name = t.getShip();
+                    if(name.equals("")){
+                        Log.v("empty","empty ship");
+                    }
+                    Log.v("hit",t.getShip());
                     for (int ship = 0; ship < shiparr.length; ship++) {
                         if (shiparr[ship].getType().equals(name)) {
                             shiparr[ship].hit(t.getPosX(), t.getPosY());
@@ -323,7 +328,6 @@ public class ComputerActivity extends AppCompatActivity {
                         int a  =i/2;
                         int y = a/10;
                         int x = a%10;
-                        Log.v("coord",""+y + "," + x);
                         buttons[y][x].setState(Character.getNumericValue(s.charAt(i)));
                     }
                     carrier.setDirection("" + s.charAt(200));
@@ -333,7 +337,6 @@ public class ComputerActivity extends AppCompatActivity {
                     for(int j = 202; j <221; j+=4){
                         int y =  Character.getNumericValue(s.charAt(j));
                         int x = Character.getNumericValue(s.charAt(j+2));
-                        Log.v("coord",""+y + "," + x);
                         buttons[y][x].setShip("carrier");
                     }
                     carrier.setHealth(Character.getNumericValue(s.charAt(222)));
@@ -345,7 +348,6 @@ public class ComputerActivity extends AppCompatActivity {
                     for(int j = 226; j <237; j+=4){
                         int y =  Character.getNumericValue(s.charAt(j));
                         int x = Character.getNumericValue(s.charAt(j+2));
-                        Log.v("coord",""+y + "," + x);
                         buttons[y][x].setShip("cruiser");
                     }
                     battleship.setHealth(Character.getNumericValue(s.charAt(238)));
@@ -357,7 +359,6 @@ public class ComputerActivity extends AppCompatActivity {
                     for(int j = 242; j <249; j+=4){
                         int y =  Character.getNumericValue(s.charAt(j));
                         int x = Character.getNumericValue(s.charAt(j+2));
-                        Log.v("coord",""+y + "," + x);
                         buttons[y][x].setShip("destroyer");
                     }
                     cruiser.setHealth(Character.getNumericValue(s.charAt(250)));
@@ -369,10 +370,31 @@ public class ComputerActivity extends AppCompatActivity {
                     for(int j = 254; j <265; j+=4){
                         int y =  Character.getNumericValue(s.charAt(j));
                         int x = Character.getNumericValue(s.charAt(j+2));
-                        Log.v("coord",""+y + "," + x);
                         buttons[y][x].setShip("sub");
                     }
                     sub.setHealth(Character.getNumericValue(s.charAt(266)));
                 }
+    public void FlashMap(){
+        for(int i = 0; i <10; i++){
+            for(int j = 0; j<10; j++){
+                int State = buttons[i][j].getState();
+                switch (State){
+                    case 0:
+                    case 1:
+                        buttons[i][j].setBackgroundColor(Color.BLUE);
+                        break;
+                    case 2:
+                        buttons[i][j].setBackgroundColor(Color.RED);
+                        break;
+                    case 3:
+                        buttons[i][j].setBackgroundColor(Color.YELLOW);
+                        break;
+                    case 4:
+                        buttons[i][j].setBackgroundColor(Color.BLACK);
+                        break;
+                }
+            }
+        }
+    }
 
 }
