@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "425221712687",
+    "firebase_url": "https://fightboat-22d71.firebaseio.com",
+    "project_id": "fightboat-22d71",
+    "storage_bucket": "fightboat-22d71.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:425221712687:android:cc369c13741b52b9",
+        "android_client_info": {
+          "package_name": "com.example.battleship"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "425221712687-7fh191d4tbtb7fmutpllsnu2164qtavs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4A7hbPA6fQvApOWJ_1rIXBc2ri0puETQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "425221712687-7fh191d4tbtb7fmutpllsnu2164qtavs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
