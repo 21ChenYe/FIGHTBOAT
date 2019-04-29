@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
     private boolean AllPlaced;
     Ship[] shiparr;
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                     buttons[i][j].setPosY(i);
                     buttons[i][j].setState(0);
                     buttons[i][j].setShip("");
+                    buttons[i][j].setBackground(getDrawable(R.drawable.ocean_tile));
                     myDragEventListener dragListen = new myDragEventListener();
                     buttons[i][j].setOnDragListener(dragListen);
                     myOnClickListener clickListen = new myOnClickListener();
@@ -130,14 +132,6 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
             FragmentManager fm = getSupportFragmentManager();
             popFrag editNameDialogFragment = popFrag.newInstance("Place your Ships");
             editNameDialogFragment.show(fm, "fragment_edit_name");
-
-            randButton = findViewById(R.id.randButton);
-            randButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    comp.RandomHit();
-                }
-            });
             //Toast.makeText(getApplicationContext(),"Created",Toast.LENGTH_LONG).show();
         }
         File directory = getFilesDir();
@@ -148,7 +142,9 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
     @Override
     protected void onResume(){
         super.onResume();
-        //comp.RandomHit();
+        if(AllPlaced) {
+            comp.RandomHit();
+        }
 
     }
 
@@ -192,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
     }
 
     protected class myDragEventListener implements View.OnDragListener {
-        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+        @RequiresApi(api = Build.VERSION_CODES.M)
         public boolean onDrag(View v, DragEvent event) {
             Tile t = (Tile) v;
             final int action = event.getAction();
@@ -204,12 +200,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
             int y = t.getPosY();
             switch (action) {
                 case DragEvent.ACTION_DRAG_STARTED:
-                    if (event.getClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
-                        v.setBackgroundColor(Color.BLUE);
-                        v.invalidate();
                         return true;
-                    }
-                    return false;
                 case DragEvent.ACTION_DRAG_ENTERED:
                     if (direction.equals("n")) {
                         if (t.getPosY() > dim - length) {
@@ -252,11 +243,12 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                     }
                     if (direction.equals("n")) {
                         for (int i = y; i < y + length; i++) {
-                            buttons[i][x].setBackgroundColor(Color.BLUE);
+                            buttons[i][x].setBackground(getDrawable(R.drawable.ocean_tile));
                         }
                     } else {
                         for (int i = x; i < x + length; i++) {
-                            buttons[y][i].setBackgroundColor(Color.BLUE);
+                            buttons[y][i].setBackground(getDrawable(R.drawable.ocean_tile));
+
                         }
                     }
                     v.invalidate();
@@ -277,15 +269,6 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                     placeShip(x, y);
                     return true;
                 case DragEvent.ACTION_DRAG_ENDED:
-                    v.setBackgroundColor(Color.GRAY);
-                    v.invalidate();
-                    if (event.getResult()) {
-                        Toast.makeText(getApplicationContext(), "The drop was handled.", Toast.LENGTH_LONG).show();
-
-                    } else {
-                        Toast.makeText(getApplicationContext(), "The drop didn't work.", Toast.LENGTH_LONG).show();
-
-                    }
                     return true;
                 default:
                     Log.e("DragDrop Example", "Unknown action type received by OnDragListener");
@@ -313,8 +296,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
         return true;
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    @RequiresApi(api = Build.VERSION_CODES.M)
     protected void placeShip(int x, int y) {
         if (direction.equals("n")) {
             for (int i = 0; i < length; i++) {
@@ -324,7 +306,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                 String drawName = buttons[i + y][x].getShip() + "_" + buttons[i + y][x].getShipPart() + "1";
                 int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
                 Drawable part = getDrawable(resId);
-                buttons[i + y][x].setBackground(part);
+                buttons[i + y][x].setForeground(part);
 
             }
         } else {
@@ -335,7 +317,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                 String drawName = buttons[y][x + i].getShip() + "_" + buttons[y][x + i].getShipPart();
                 int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
                 Drawable part = getDrawable(resId);
-                buttons[y][x + i].setBackground(part);
+                buttons[y][x + i].setForeground(part);
             }
         }
          AllPlaced = true;
@@ -365,7 +347,9 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
             if (t.getState() == 0) {
                 t.setState(4);
                 t.setBackgroundColor(Color.BLACK);
-                //Add popup message saying missed
+                FragmentManager fm = getSupportFragmentManager();
+                popFrag editNameDialogFragment = popFrag.newInstance("Yo ho ho! They missed!");
+                editNameDialogFragment.show(fm, "fragment_edit_name");
             } else if (t.getState() == 1) {
                 t.setState(2);
                 String name = t.getShip();
@@ -374,18 +358,20 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                         shiparr[ship].hit(t.getPosX(), t.getPosY());
                         if (shiparr[ship].isSunk()) {
                             sink(name);
-                            //Add popup message saying sunk ...
+                            FragmentManager fm = getSupportFragmentManager();
+                            popFrag editNameDialogFragment = popFrag.newInstance("Arrg they sunk our " + name);
+                            editNameDialogFragment.show(fm, "fragment_edit_name");
                         } else {
                             t.setState(2);
                             t.setBackgroundColor(Color.RED);
-                            //Add popup message saying hit
+                            FragmentManager fm = getSupportFragmentManager();
+                            popFrag editNameDialogFragment = popFrag.newInstance("Avast Ye, they hit us!");
+                            editNameDialogFragment.show(fm, "fragment_edit_name");
                         }
                     }
                 }
             }
-            FragmentManager fm = getSupportFragmentManager();
-            popFrag editNameDialogFragment = popFrag.newInstance("Computer attacked");
-            editNameDialogFragment.show(fm, "fragment_edit_name");
+
 
 
         }
@@ -400,6 +386,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                 }
             }
         }
+        //boolean AllSunk
     }
 
     protected class Computer{
@@ -439,6 +426,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
             Ship[] temp = {battleship, cruiser, sub, carrier};
             shiparr = temp;
         }
+        @TargetApi(Build.VERSION_CODES.M)
         @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
         protected void RandomPlace() {
             int xLim;
