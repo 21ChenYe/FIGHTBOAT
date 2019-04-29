@@ -204,7 +204,7 @@ public class ComputerActivity extends AppCompatActivity {
                 }
                 writeToFile(getApplicationContext());
                 String read = readFromFile(getApplicationContext());
-                Log.v("created",read);
+                Log.v("writing",read);
                 finish();
 
             }
@@ -308,6 +308,7 @@ public class ComputerActivity extends AppCompatActivity {
                                 outputStreamWriter.write(((int) positions.get(k)) + ",");
                             }
                             int health = shiparr[i].getHealth();
+                            Log.v("fucky wucky", "" + health);
                             outputStreamWriter.write(health + ",");
                         }
                         outputStreamWriter.close();
@@ -336,17 +337,18 @@ public class ComputerActivity extends AppCompatActivity {
                         buttons[y][x].setShip("carrier");
                     }
                     carrier.setHealth(Character.getNumericValue(s.charAt(222)));
-
+                    Log.v("carrier Health", "" + carrier.getHealth());
                     battleship.setDirection("" + s.charAt(224));
                      w = Character.getNumericValue(s.charAt(226));
                      q = Character.getNumericValue(s.charAt(228));
+                     battleship.setPositions(w,q);
                     for(int j = 226; j <237; j+=4){
                         int y =  Character.getNumericValue(s.charAt(j));
                         int x = Character.getNumericValue(s.charAt(j+2));
                         Log.v("coord",""+y + "," + x);
                         buttons[y][x].setShip("cruiser");
                     }
-                    battleship.setHealth((int) s.charAt(238));
+                    battleship.setHealth(Character.getNumericValue(s.charAt(238)));
 
                     cruiser.setDirection("" + s.charAt(240));
                     w = Character.getNumericValue(s.charAt(242));

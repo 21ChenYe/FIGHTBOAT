@@ -21,19 +21,19 @@ public class Ship extends android.support.v7.widget.AppCompatImageButton {
         placed = false;
         direction = "e"; }
 
-    public void setPositions(int x, int y){
+    public void setPositions(int y, int x){
         placed = true;
         switch(direction){
             case "n":
                 for(int i = 0; i<length; i++){
-                    positions[i][0] = y+i;
-                    positions[i][1] = x;
+                    positions[i][0] = y;
+                    positions[i][1] = x+i;
                 }
                 break;
             case "e":
                 for(int i = 0; i<length; i++){
-                    positions[i][0] = y;
-                    positions[i][1] = x+i;
+                    positions[i][0] = y+i;
+                    positions[i][1] = x;
                 }
                 break;
             default:
