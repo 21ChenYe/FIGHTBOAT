@@ -16,23 +16,22 @@ public class MainMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        configureButton1();
 
+        TextView button1 = findViewById(R.id.button1);
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainMenu.this, MainActivity.class));
+            }
+        });
 
-
+        TextView button2 = findViewById(R.id.button2);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainMenu.this, Multiplayer.class));
+            }
+        });
     }
-
-    private void configureButton1() {
-            TextView button1 = (TextView) findViewById(R.id.button1);
-            button1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(MainMenu.this, MainActivity.class));
-                }
-            });
-    }
-
-
-
 
 }
