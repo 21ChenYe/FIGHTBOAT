@@ -392,7 +392,9 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
             }
         }
         if(AllSunk){
-
+            FragmentManager fm = getSupportFragmentManager();
+            finalfrag editNameDialogFragment = finalfrag.newInstance("Defeat!");
+            editNameDialogFragment.show(fm, "fragment_edit_name");
         }
     }
 
@@ -469,112 +471,15 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
 
         public void RandomHit() {
             Random ran = new Random();
-            if(origin[0] == -1) {
                 x = ran.nextInt(dim);
-                 y = ran.nextInt(dim);
-                while (!(buttons[x][y].getState()== 1) && !(buttons[x][y].getState()== 0)) {
+                y = ran.nextInt(dim);
+                while (!(buttons[y][x].getState() == (1)) && !(buttons[y][x].getState() == 0)) {
                     x = ran.nextInt(dim);
                     y = ran.nextInt(dim);
                 }
-                if(buttons[x][y].getState()== 1){
-                    origin[0] = x;
-                    origin[1] = y;
-                    current[0] = x;
-                    current[1] = y;
-                }
-            }
-            else{
-                if (directionAttack.equals("")) {
-                    directions.add("n");
-                    directions.add("s");
-                    directions.add("e");
-                    directions.add("w");
-                    int choice = ran.nextInt(directions.size());
-                    directionAttack = (String) directions.get(choice);
-                    while (!checkDirection(directionAttack)){
-                        choice = ran.nextInt(directions.size());
-                        directionAttack = (String) directions.get(choice);
-                    }
-                }
-                else if (!success){
-                    directions.remove(directionAttack);
-                    directionAttack = (String) directions.get(0);
-                    while (!checkDirection(directionAttack)){
-                       int choice = ran.nextInt(directions.size());
-                        directionAttack = (String) directions.get(choice);
-                    }
-                    current[0] = origin[0];
-                    current[1] = origin[1];
-                }
-            }
-            if(buttons[x][y].getState()== 1){
-                success = true;
-            }
-            else {
-                success = false;
-            }
-            while (!checkDirection(directionAttack)){
-                Log.v("heck","fuck");
-               int choice = ran.nextInt(directions.size());
-                directionAttack = (String) directions.get(choice);
-            }
-            changeCurrent(directionAttack);
-            buttons[x][y].performClick();
-            if(buttons[x][y].getState() ==3){
-                origin[0] = -1;
-                directionAttack = "";
-
-            }
+            Log.v("why", "" + x +" , "+ y);
+            buttons[y][x].performClick();
         }
-        private boolean checkDirection(String d){
-            switch (d){
-                case "n":
-                    if (origin[0] == 0 || (!(buttons[origin[0]-1][origin[1]].getState()== 0) && !(buttons[origin[0]-1][origin[1]].getState()== 1))){
-                        directions.remove("n");
-                        return false;
-                    }
-                case "e":
-                    if (origin[1] == 10  || (!(buttons[origin[0]][origin[1]+1].getState()== 0) && !(buttons[origin[0]][origin[1]+1].getState()== 1))) {
-                        directions.remove("e");
-                        return false;
-                    }
-                case "s":
-                    if (origin[0] == 10  || (!(buttons[origin[0]+1][origin[1]].getState()== 0) && !(buttons[origin[0]+1][origin[1]].getState()== 1))) {
-                        directions.remove("s");
-                        return false;
-                    }
-                case "w":
-                    if (origin[1] == 0 || (!(buttons[origin[0]][origin[1]-1].getState()== 0) && !(buttons[origin[0]][origin[1]-1].getState()== 1))) {
-                        directions.remove("w");
-                        return false;
-                    }
-            }
-            return true;
-        }
-        private void changeCurrent(String d){
-            switch (d){
-                case "e":
-                    x = current[0];
-                    y = current[1]+1;
-                    current[1]++;
-                    break;
-                case "s":
-                    x = current[0]+1;
-                    current[0]++;
-                    y = current[1];
-                    break;
-                case "w":
-                    x = current[0];
-                    y = current[1]-1;
-                    current[1]--;
-                    break;
-                case "n":
-                    x = current[0]-1;
-                    current[0]--;
-                    y = current[1];
-                    break;
-            }
-        }
-        }
+    }
     }
 

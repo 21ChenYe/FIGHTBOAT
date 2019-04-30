@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -34,7 +35,7 @@ import java.io.OutputStreamWriter;
 import java.util.Random;
 import java.util.Vector;
 
-public class ComputerActivity extends AppCompatActivity {
+public class ComputerActivity extends AppCompatActivity implements DialogInterface.OnDismissListener {
         private Tile[][] buttons = new Tile[10][10];
         private int dim = 10;
         private TextView player;
@@ -46,6 +47,8 @@ public class ComputerActivity extends AppCompatActivity {
         private String direction;
         private int length;
         private Computer comp;
+        private boolean message = false;
+        private boolean AllSunk = false;
         Ship[] shiparr;
 
         @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -118,7 +121,13 @@ public class ComputerActivity extends AppCompatActivity {
             }
 
 
-
+    @Override
+    public void onDismiss(final DialogInterface dialog) {
+        if(message){
+            message = false;
+            finish();
+        }
+    }
         private boolean check(int x, int y) {
             if (direction.equals("n")) {
                 for (int i = y; i < y + length; i++) {
@@ -179,7 +188,10 @@ public class ComputerActivity extends AppCompatActivity {
                 if (t.getState() ==0) {
                     t.setState(4);
                     t.setBackgroundColor(Color.BLACK);
-                    //Add popup message saying missed
+                    message =true;
+                    FragmentManager fm = getSupportFragmentManager();
+                    popFrag editNameDialogFragment = popFrag.newInstance("Take off ye eye-patch!");
+                    editNameDialogFragment.show(fm, "fragment_edit_name");
                 } else if (t.getState()== 1) {
                     t.setState(2);
                     String name = t.getShip();
@@ -192,11 +204,19 @@ public class ComputerActivity extends AppCompatActivity {
                             shiparr[ship].hit(t.getPosX(), t.getPosY());
                             if (shiparr[ship].isSunk()) {
                                 sink(name);
-                                //Add popup message saying sunk ...
+                                if(!AllSunk) {
+                                    message = true;
+                                    FragmentManager fm = getSupportFragmentManager();
+                                    popFrag editNameDialogFragment = popFrag.newInstance("Ye've plundered their " + name + "!");
+                                    editNameDialogFragment.show(fm, "fragment_edit_name");
+                                }
                             } else {
                                 t.setState(2);
                                 t.setBackgroundColor(Color.RED);
-                                //Add popup message saying hit
+                                message = true;
+                                FragmentManager fm = getSupportFragmentManager();
+                                popFrag editNameDialogFragment = popFrag.newInstance("Aye ye hit 'em!");
+                                editNameDialogFragment.show(fm, "fragment_edit_name");
                             }
                         }
                     }
@@ -212,7 +232,7 @@ public class ComputerActivity extends AppCompatActivity {
                 writeToFile(getApplicationContext());
                 String read = readFromFile(getApplicationContext());
                 Log.v("writing",read);
-                finish();
+               // finish();
 
             }
         }
@@ -225,6 +245,17 @@ public class ComputerActivity extends AppCompatActivity {
                         buttons[i][j].setBackgroundColor(Color.YELLOW);
                     }
                 }
+            }
+            AllSunk = true;
+            for(int k = 0; k < shiparr.length; k++){
+                if(!shiparr[k].isSunk()){
+                    AllSunk = false;
+                }
+            }
+            if(AllSunk){
+                FragmentManager fm = getSupportFragmentManager();
+                finalfrag editNameDialogFragment = finalfrag.newInstance("Victory!");
+                editNameDialogFragment.show(fm, "fragment_edit_name");
             }
         }
 
