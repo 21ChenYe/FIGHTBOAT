@@ -89,8 +89,6 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
                     buttons[i][j].setBackground(getDrawable(R.drawable.ocean_tile));
                     myDragEventListener dragListen = new myDragEventListener();
                     buttons[i][j].setOnDragListener(dragListen);
-                    myOnClickListener clickListen = new myOnClickListener();
-                    buttons[i][j].setOnClickListener(clickListen);
                 }
             }
             carrier = findViewById(R.id.carrier_ship);
@@ -377,6 +375,12 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
             }
         }
         if (AllPlaced) {
+            for (int i = 0; i < 10; i++) {
+                for (int j = 0; j < 10; j++) {
+                    myOnClickListener clickListen = new myOnClickListener();
+                    buttons[i][j].setOnClickListener(clickListen);
+                }
+            }
             player.setText("Your Map");
             buttonRotate.setVisibility(View.GONE);
             if (update) {
@@ -418,13 +422,13 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
                         } else {
                             t.setState(2);
                             if(shiparr[ship].getDirection().equals("n")) {
-                                String drawName = t.getShip() + "_" + t.getShipPart() + "1" + "_x";
+                                String drawName = t.getShip() + "_" + t.getShipPart() +  "_x";
                                 int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
                                 Drawable part = getDrawable(resId);
                                 t.setBackground(part);
                             }
                             else {
-                                String drawName = t.getShip() + "_" + t.getShipPart()  + "_x";
+                                String drawName = t.getShip() + "_" + t.getShipPart()  + "1" +"_x";
                                 int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
                                 Drawable part = getDrawable(resId);
                                 t.setBackground(part);
