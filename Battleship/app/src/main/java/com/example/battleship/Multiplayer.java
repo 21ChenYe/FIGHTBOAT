@@ -99,17 +99,17 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
 
 
             battleship = findViewById(R.id.battle_ship);
-            battleship.setType("Caravel");
+            battleship.setType("caravel");
             battleship.setLength(3);
 
 
             cruiser = findViewById(R.id.cruiser_ship);
-            cruiser.setType("Dandy");
+            cruiser.setType("dandy");
             cruiser.setLength(2);
 
 
             sub = findViewById(R.id.sub_ship);
-            sub.setType("Sloop");
+            sub.setType("sloop");
             sub.setLength(3);
 
             Ship[] temp = {carrier,battleship,cruiser,sub};
@@ -424,7 +424,7 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
                                 t.setBackground(part);
                             }
                             else {
-                                String drawName = t.getShip() + "_" + t.getShipPart() + "2" + "_x";
+                                String drawName = t.getShip() + "_" + t.getShipPart()  + "_x";
                                 int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
                                 Drawable part = getDrawable(resId);
                                 t.setBackground(part);

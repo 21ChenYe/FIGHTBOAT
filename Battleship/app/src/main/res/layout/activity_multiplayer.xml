@@ -47,7 +47,7 @@
             android:layout_marginLeft="119dp"
             android:layout_marginTop="13dp"
             android:layout_marginBottom="15dp"
-            android:background="@drawable/carrier"
+            android:background="@drawable/frigate"
             android:minHeight="48dp"
             android:text="Drag Me!" />
 
@@ -63,7 +63,7 @@
             android:layout_marginTop="55dp"
             android:layout_marginRight="0dp"
             android:layout_marginBottom="0dp"
-            android:background="@drawable/sub" />
+            android:background="@drawable/caravel" />
 
         <com.example.battleship.Ship
             android:id="@+id/cruiser_ship"
@@ -75,7 +75,7 @@
             android:layout_marginStart="205dp"
             android:layout_marginLeft="205dp"
             android:layout_marginTop="54dp"
-            android:background="@drawable/destroyer"
+            android:background="@drawable/dandy"
             android:text="Drag Me!" />
 
         <com.example.battleship.Ship
@@ -88,7 +88,7 @@
             android:layout_marginStart="286dp"
             android:layout_marginLeft="286dp"
             android:layout_marginTop="54dp"
-            android:background="@drawable/sub"
+            android:background="@drawable/sloop"
             android:text="Drag Me!" />
 
     </RelativeLayout>

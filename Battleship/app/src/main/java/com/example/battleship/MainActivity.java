@@ -81,22 +81,22 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                 }
             }
             carrier = findViewById(R.id.carrier_ship);
-            carrier.setType("Frigate");
+            carrier.setType("frigate");
             carrier.setLength(5);
 
 
             battleship = findViewById(R.id.battle_ship);
-            battleship.setType("Caravel");
+            battleship.setType("caravel");
             battleship.setLength(3);
 
 
             cruiser = findViewById(R.id.cruiser_ship);
-            cruiser.setType("Dandy");
+            cruiser.setType("dandy");
             cruiser.setLength(2);
 
 
             sub = findViewById(R.id.sub_ship);
-            sub.setType("Sloop");
+            sub.setType("sloop");
             sub.setLength(3);
 
             Ship[] temp = {battleship, cruiser, sub, carrier};
@@ -305,7 +305,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                 buttons[i + y][x].setState(1);
                 buttons[i + y][x].setShip(type);
                 buttons[i + y][x].setShipPart(i + 1);
-                String drawName = buttons[i + y][x].getShip() + "_" + buttons[i + y][x].getShipPart() + "1";
+                String drawName = buttons[i + y][x].getShip() + "_" + buttons[i + y][x].getShipPart() + 1;
                 int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
                 Drawable part = getDrawable(resId);
                 buttons[i + y][x].setBackground(part);
@@ -373,7 +373,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                                 t.setBackground(part);
                             }
                             else {
-                                String drawName = t.getShip() + "_" + t.getShipPart() + "2" + "_x";
+                                String drawName = t.getShip() + "_" + t.getShipPart()  + "_x";
                                 int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
                                 Drawable part = getDrawable(resId);
                                 t.setBackground(part);

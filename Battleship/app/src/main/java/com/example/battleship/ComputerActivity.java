@@ -74,22 +74,22 @@ public class ComputerActivity extends AppCompatActivity implements DialogInterfa
                 }
             }
             carrier = findViewById(R.id.carrier_ship2);
-            carrier.setType("Frigate");
+            carrier.setType("frigate");
             carrier.setLength(5);
 
 
             battleship = findViewById(R.id.battle_ship2);
-            battleship.setType("Caravel");
+            battleship.setType("caravel");
             battleship.setLength(3);
 
 
             cruiser = findViewById(R.id.cruiser_ship2);
-            cruiser.setType("Dandy");
+            cruiser.setType("dandy");
             cruiser.setLength(2);
 
 
             sub = findViewById(R.id.sub_ship2);
-            sub.setType("Sloop");
+            sub.setType("sloop");
             sub.setLength(3);
 
             Ship[] temp = {carrier,battleship,cruiser,sub};
@@ -372,7 +372,7 @@ public class ComputerActivity extends AppCompatActivity implements DialogInterfa
                     for(int j = 202; j <221; j+=4){
                         int y =  Character.getNumericValue(s.charAt(j));
                         int x = Character.getNumericValue(s.charAt(j+2));
-                        buttons[y][x].setShip("Frigate");
+                        buttons[y][x].setShip("frigate");
                     }
                     carrier.setHealth(Character.getNumericValue(s.charAt(222)));
                     Log.v("carrier Health", "" + carrier.getHealth());
@@ -383,7 +383,7 @@ public class ComputerActivity extends AppCompatActivity implements DialogInterfa
                     for(int j = 226; j <237; j+=4){
                         int y =  Character.getNumericValue(s.charAt(j));
                         int x = Character.getNumericValue(s.charAt(j+2));
-                        buttons[y][x].setShip("Caravel");
+                        buttons[y][x].setShip("caravel");
                     }
                     battleship.setHealth(Character.getNumericValue(s.charAt(238)));
 
@@ -394,7 +394,7 @@ public class ComputerActivity extends AppCompatActivity implements DialogInterfa
                     for(int j = 242; j <249; j+=4){
                         int y =  Character.getNumericValue(s.charAt(j));
                         int x = Character.getNumericValue(s.charAt(j+2));
-                        buttons[y][x].setShip("Dandy");
+                        buttons[y][x].setShip("dandy");
                     }
                     cruiser.setHealth(Character.getNumericValue(s.charAt(250)));
 
@@ -405,7 +405,7 @@ public class ComputerActivity extends AppCompatActivity implements DialogInterfa
                     for(int j = 254; j <265; j+=4){
                         int y =  Character.getNumericValue(s.charAt(j));
                         int x = Character.getNumericValue(s.charAt(j+2));
-                        buttons[y][x].setShip("Sloop");
+                        buttons[y][x].setShip("sloop");
                     }
                     sub.setHealth(Character.getNumericValue(s.charAt(266)));
                 }
