@@ -405,10 +405,11 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
 
             }
             initial = temp;
+            String test = value;
             reference.child(id).setValue(value);
             player.setText("Your Map");
             buttonRotate.setVisibility(View.GONE);
-            while(initial.equals(value)){
+            while(test.equals(value)){
 
                 }
             Intent change = new Intent(Multiplayer.this, ComputerActivity.class);
