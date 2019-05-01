@@ -2,35 +2,27 @@ package com.example.battleship;
 
 import android.annotation.TargetApi;
 import android.content.ClipData;
-import android.content.ClipDescription;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Build;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Random;
-import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity implements DialogInterface.OnDismissListener {
     private Tile[][] buttons = new Tile[10][10];
@@ -46,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
     private int length;
     private Computer comp;
     private boolean AllPlaced;
+    private boolean AllSunk;
     Ship[] shiparr;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -351,6 +344,8 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @Override
         public void onClick(View v) {
+            MediaPlayer mp2 = MediaPlayer.create(getApplicationContext(), R.raw.cannon_2);
+            mp2.start();
             Tile t = (Tile) v;
             if (t.getState() == 0) {
                 t.setState(4);
@@ -367,8 +362,13 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                         if (shiparr[ship].isSunk()) {
                             sink(name);
                             FragmentManager fm = getSupportFragmentManager();
-                            popFrag editNameDialogFragment = popFrag.newInstance("Arrg they sunk our " + name);
-                            editNameDialogFragment.show(fm, "fragment_edit_name");
+                            mp2.stop();
+                            MediaPlayer mp3 = MediaPlayer.create(getApplicationContext(), R.raw.explosion);
+                            mp3.start();
+                            if(!AllSunk) {
+                                popFrag editNameDialogFragment = popFrag.newInstance("Arrg they sunk our " + name);
+                                editNameDialogFragment.show(fm, "fragment_edit_name");
+                            }
                         } else {
                             t.setState(2);
                             if(shiparr[ship].getDirection().equals("n")) {
@@ -384,6 +384,9 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                                 t.setBackground(part);
                             }
                             FragmentManager fm = getSupportFragmentManager();
+                            mp2.stop();
+                            MediaPlayer mp3 = MediaPlayer.create(getApplicationContext(), R.raw.explosion);
+                            mp3.start();
                             popFrag editNameDialogFragment = popFrag.newInstance("Avast Ye, they hit us!");
                             editNameDialogFragment.show(fm, "fragment_edit_name");
                         }
@@ -406,7 +409,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                 }
             }
         }
-        boolean AllSunk = true;
+         AllSunk = true;
         for(int k = 0; k < shiparr.length; k++){
             if(!shiparr[k].isSunk()){
                 AllSunk = false;

@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -226,6 +227,8 @@ public class ComputerMultiplayer extends AppCompatActivity implements DialogInte
         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @Override
         public void onClick(View v) {
+            MediaPlayer mp2 = MediaPlayer.create(getApplicationContext(), R.raw.cannon_2);
+            mp2.start();
             Tile t = (Tile) v;
             if (t.getState() ==0) {
                 t.setState(4);
@@ -235,6 +238,9 @@ public class ComputerMultiplayer extends AppCompatActivity implements DialogInte
                 popFrag editNameDialogFragment = popFrag.newInstance("Take off ye eye-patch!");
                 editNameDialogFragment.show(fm, "fragment_edit_name");
             } else if (t.getState()== 1) {
+                mp2.stop();
+                MediaPlayer mp3 = MediaPlayer.create(getApplicationContext(), R.raw.explosion);
+                mp3.start();
                 t.setState(2);
                 String name = t.getShip();
                 if(name.equals("")){

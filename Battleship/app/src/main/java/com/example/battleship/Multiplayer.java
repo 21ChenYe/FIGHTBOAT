@@ -10,6 +10,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
@@ -55,6 +56,7 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
     private boolean AllPlaced;
     private String value;
     private boolean update = false;
+    private boolean AllSunk;
     Ship[] shiparr;
 
 
@@ -401,6 +403,8 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @Override
         public void onClick(View v) {
+            MediaPlayer mp2 = MediaPlayer.create(getApplicationContext(), R.raw.cannon_2);
+            mp2.start();
             Tile t = (Tile) v;
             if (t.getState() == 0) {
                 t.setState(4);
@@ -409,6 +413,9 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
                 popFrag editNameDialogFragment = popFrag.newInstance("Yo ho ho! They missed!");
                 editNameDialogFragment.show(fm, "fragment_edit_name");
             } else if (t.getState() == 1) {
+                mp2.stop();
+                MediaPlayer mp3 = MediaPlayer.create(getApplicationContext(), R.raw.explosion);
+                mp3.start();
                 t.setState(2);
                 String name = t.getShip();
                 for (int ship = 0; ship < shiparr.length; ship++) {
@@ -417,8 +424,10 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
                         if (shiparr[ship].isSunk()) {
                             sink(name);
                             FragmentManager fm = getSupportFragmentManager();
-                            popFrag editNameDialogFragment = popFrag.newInstance("Arrg they sunk our " + name);
-                            editNameDialogFragment.show(fm, "fragment_edit_name");
+                            if(!AllSunk) {
+                                popFrag editNameDialogFragment = popFrag.newInstance("Arrg they sunk our " + name);
+                                editNameDialogFragment.show(fm, "fragment_edit_name");
+                            }
                         } else {
                             t.setState(2);
                             if(shiparr[ship].getDirection().equals("n")) {
@@ -457,7 +466,7 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
                 }
             }
         }
-        boolean AllSunk = true;
+         AllSunk = true;
         for(int k = 0; k < shiparr.length; k++){
             if(!shiparr[k].isSunk()){
                 AllSunk = false;
