@@ -94,22 +94,22 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
                 }
             }
             carrier = findViewById(R.id.carrier_ship);
-            carrier.setType("carrier");
+            carrier.setType("frigate");
             carrier.setLength(5);
 
 
             battleship = findViewById(R.id.battle_ship);
-            battleship.setType("cruiser");
+            battleship.setType("Caravel");
             battleship.setLength(3);
 
 
             cruiser = findViewById(R.id.cruiser_ship);
-            cruiser.setType("destroyer");
+            cruiser.setType("Dandy");
             cruiser.setLength(2);
 
 
             sub = findViewById(R.id.sub_ship);
-            sub.setType("sub");
+            sub.setType("Sloop");
             sub.setLength(3);
 
             Ship[] temp = {carrier,battleship,cruiser,sub};
@@ -394,12 +394,13 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
 
 
     protected class myOnClickListener implements View.OnClickListener {
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @Override
         public void onClick(View v) {
             Tile t = (Tile) v;
             if (t.getState() == 0) {
                 t.setState(4);
-                t.setBackgroundColor(Color.BLACK);
+                t.setBackground(getDrawable(R.drawable.ocean_tile_miss));
                 FragmentManager fm = getSupportFragmentManager();
                 popFrag editNameDialogFragment = popFrag.newInstance("Yo ho ho! They missed!");
                 editNameDialogFragment.show(fm, "fragment_edit_name");
@@ -416,7 +417,18 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
                             editNameDialogFragment.show(fm, "fragment_edit_name");
                         } else {
                             t.setState(2);
-                            t.setBackgroundColor(Color.RED);
+                            if(shiparr[ship].getDirection().equals("n")) {
+                                String drawName = t.getShip() + "_" + t.getShipPart() + "1" + "_x";
+                                int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
+                                Drawable part = getDrawable(resId);
+                                t.setBackground(part);
+                            }
+                            else {
+                                String drawName = t.getShip() + "_" + t.getShipPart() + "2" + "_x";
+                                int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
+                                Drawable part = getDrawable(resId);
+                                t.setBackground(part);
+                            }
                             FragmentManager fm = getSupportFragmentManager();
                             popFrag editNameDialogFragment = popFrag.newInstance("Avast Ye, they hit us!");
                             editNameDialogFragment.show(fm, "fragment_edit_name");
@@ -430,12 +442,13 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void sink(String name) {
         for (int i = 0; i < dim; i++) {
             for (int j = 0; j < dim; j++) {
                 if (buttons[i][j].getShip().equals(name)) {
                     buttons[i][j].setState(3);
-                    buttons[i][j].setBackgroundColor(Color.YELLOW);
+                    buttons[i][j].setBackground(getDrawable(R.drawable.ocean_tile_death));
                 }
             }
         }
@@ -453,73 +466,9 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
     }
 
     protected class Computer{
-        private int[] origin = {-1,-1};
-        private int[] current = {-1,-1};
-        private String directionAttack = "";
-        private TextView player;
-        private Ship carrier;
-        private Ship battleship;
-        private Ship cruiser;
-        private Ship sub;
-        private Vector directions = new Vector();
-        private boolean success = true;
         private int x;
         private int y;
-        Ship[] shiparr;
         public Computer(){
-            carrier = findViewById(R.id.carrier_ship);
-            carrier.setType("carrier");
-            carrier.setLength(5);
-
-
-            battleship = findViewById(R.id.battle_ship);
-            battleship.setType("cruiser");
-            battleship.setLength(3);
-
-
-            cruiser = findViewById(R.id.cruiser_ship);
-            cruiser.setType("destroyer");
-            cruiser.setLength(2);
-
-
-            sub = findViewById(R.id.sub_ship);
-            sub.setType("sub");
-            sub.setLength(3);
-
-            Ship[] temp = {battleship, cruiser, sub, carrier};
-            shiparr = temp;
-        }
-        @TargetApi(Build.VERSION_CODES.M)
-        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-        protected void RandomPlace() {
-            int xLim;
-            int yLim;
-            Random rand = new Random();
-            for (int i = 0; i < shiparr.length; i++) {
-                int randDir = rand.nextInt(2);
-                if (randDir == 0) {
-                    shiparr[i].setDirection("n");
-                } else {
-                    shiparr[i].setDirection("e");
-                }
-                type = shiparr[i].getType();
-                length = shiparr[i].getLength();
-                direction = shiparr[i].getDirection();
-                if (direction.equals("n")) {
-                    xLim = dim;
-                    yLim = dim - length;
-                } else {
-                    xLim = dim - length;
-                    yLim = dim;
-                }
-                int x = rand.nextInt(xLim);
-                int y = rand.nextInt(yLim);
-                while (!check(x, y)) {
-                    x = rand.nextInt(xLim);
-                    y = rand.nextInt(yLim);
-                }
-                placeShip(x, y);
-            }
 
         }
 
@@ -556,79 +505,6 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
             }
             return temp;
     }
-    private void LoadGame(String s){
-        for(int i = 0; i <200; i += 2){
-            int a  =i/2;
-            int y = a/10;
-            int x = a%10;
-            buttons[y][x].setState(Character.getNumericValue(s.charAt(i)));
-        }
-        carrier.setDirection("" + s.charAt(200));
-        int w = Character.getNumericValue(s.charAt(202));
-        int q = Character.getNumericValue(s.charAt(204));
-        carrier.setPositions(q,w);
-        for(int j = 202; j <221; j+=4){
-            int y =  Character.getNumericValue(s.charAt(j));
-            int x = Character.getNumericValue(s.charAt(j+2));
-            buttons[y][x].setShip("carrier");
-        }
-        carrier.setHealth(Character.getNumericValue(s.charAt(222)));
-        Log.v("carrier Health", "" + carrier.getHealth());
-        battleship.setDirection("" + s.charAt(224));
-        w = Character.getNumericValue(s.charAt(226));
-        q = Character.getNumericValue(s.charAt(228));
-        battleship.setPositions(q,w);
-        for(int j = 226; j <237; j+=4){
-            int y =  Character.getNumericValue(s.charAt(j));
-            int x = Character.getNumericValue(s.charAt(j+2));
-            buttons[y][x].setShip("cruiser");
-        }
-        battleship.setHealth(Character.getNumericValue(s.charAt(238)));
 
-        cruiser.setDirection("" + s.charAt(240));
-        w = Character.getNumericValue(s.charAt(242));
-        q = Character.getNumericValue(s.charAt(244));
-        cruiser.setPositions(q,w);
-        for(int j = 242; j <249; j+=4){
-            int y =  Character.getNumericValue(s.charAt(j));
-            int x = Character.getNumericValue(s.charAt(j+2));
-            buttons[y][x].setShip("destroyer");
-        }
-        cruiser.setHealth(Character.getNumericValue(s.charAt(250)));
-
-        sub.setDirection("" + s.charAt(252));
-        w = Character.getNumericValue(s.charAt(254));
-        q = Character.getNumericValue(s.charAt(256));
-        sub.setPositions(q,w);
-        for(int j = 254; j <265; j+=4){
-            int y =  Character.getNumericValue(s.charAt(j));
-            int x = Character.getNumericValue(s.charAt(j+2));
-            buttons[y][x].setShip("sub");
-        }
-        sub.setHealth(Character.getNumericValue(s.charAt(266)));
-    }
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public void FlashMap(){
-        for(int i = 0; i <10; i++){
-            for(int j = 0; j<10; j++){
-                int State = buttons[i][j].getState();
-                switch (State){
-                    case 0:
-                    case 1:
-                        buttons[i][j].setBackground(getDrawable(R.drawable.ocean_tile));
-                        break;
-                    case 2:
-                        buttons[i][j].setBackgroundColor(Color.RED);
-                        break;
-                    case 3:
-                        buttons[i][j].setBackgroundColor(Color.YELLOW);
-                        break;
-                    case 4:
-                        buttons[i][j].setBackgroundColor(Color.BLACK);
-                        break;
-                }
-            }
-        }
-    }
 }
 

@@ -81,22 +81,22 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                 }
             }
             carrier = findViewById(R.id.carrier_ship);
-            carrier.setType("carrier");
+            carrier.setType("Frigate");
             carrier.setLength(5);
 
 
             battleship = findViewById(R.id.battle_ship);
-            battleship.setType("cruiser");
+            battleship.setType("Caravel");
             battleship.setLength(3);
 
 
             cruiser = findViewById(R.id.cruiser_ship);
-            cruiser.setType("destroyer");
+            cruiser.setType("Dandy");
             cruiser.setLength(2);
 
 
             sub = findViewById(R.id.sub_ship);
-            sub.setType("sub");
+            sub.setType("Sloop");
             sub.setLength(3);
 
             Ship[] temp = {battleship, cruiser, sub, carrier};
@@ -343,12 +343,13 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
 
 
     protected class myOnClickListener implements View.OnClickListener {
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @Override
         public void onClick(View v) {
             Tile t = (Tile) v;
             if (t.getState() == 0) {
                 t.setState(4);
-                t.setBackgroundColor(Color.BLACK);
+                t.setBackground(getDrawable(R.drawable.ocean_tile_miss));
                 FragmentManager fm = getSupportFragmentManager();
                 popFrag editNameDialogFragment = popFrag.newInstance("Yo ho ho! They missed!");
                 editNameDialogFragment.show(fm, "fragment_edit_name");
@@ -365,7 +366,18 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                             editNameDialogFragment.show(fm, "fragment_edit_name");
                         } else {
                             t.setState(2);
-                            t.setBackgroundColor(Color.RED);
+                            if(shiparr[ship].getDirection().equals("n")) {
+                                String drawName = t.getShip() + "_" + t.getShipPart() + "1" + "_x";
+                                int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
+                                Drawable part = getDrawable(resId);
+                                t.setBackground(part);
+                            }
+                            else {
+                                String drawName = t.getShip() + "_" + t.getShipPart() + "2" + "_x";
+                                int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
+                                Drawable part = getDrawable(resId);
+                                t.setBackground(part);
+                            }
                             FragmentManager fm = getSupportFragmentManager();
                             popFrag editNameDialogFragment = popFrag.newInstance("Avast Ye, they hit us!");
                             editNameDialogFragment.show(fm, "fragment_edit_name");
@@ -379,12 +391,13 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void sink(String name) {
         for (int i = 0; i < dim; i++) {
             for (int j = 0; j < dim; j++) {
                 if (buttons[i][j].getShip().equals(name)) {
                     buttons[i][j].setState(3);
-                    buttons[i][j].setBackgroundColor(Color.YELLOW);
+                    buttons[i][j].setBackground(getDrawable(R.drawable.ocean_tile_death));
                 }
             }
         }
@@ -402,75 +415,11 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
     }
 
     protected class Computer{
-        private int[] origin = {-1,-1};
-        private int[] current = {-1,-1};
-        private String directionAttack = "";
-        private TextView player;
-        private Ship carrier;
-        private Ship battleship;
-        private Ship cruiser;
-        private Ship sub;
-        private Vector directions = new Vector();
-        private boolean success = true;
         private int x;
         private int y;
-        Ship[] shiparr;
         public Computer(){
-            carrier = findViewById(R.id.carrier_ship);
-            carrier.setType("carrier");
-            carrier.setLength(5);
-
-
-            battleship = findViewById(R.id.battle_ship);
-            battleship.setType("cruiser");
-            battleship.setLength(3);
-
-
-            cruiser = findViewById(R.id.cruiser_ship);
-            cruiser.setType("destroyer");
-            cruiser.setLength(2);
-
-
-            sub = findViewById(R.id.sub_ship);
-            sub.setType("sub");
-            sub.setLength(3);
-
-            Ship[] temp = {battleship, cruiser, sub, carrier};
-            shiparr = temp;
         }
-        @TargetApi(Build.VERSION_CODES.M)
-        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-        protected void RandomPlace() {
-            int xLim;
-            int yLim;
-            Random rand = new Random();
-            for (int i = 0; i < shiparr.length; i++) {
-                int randDir = rand.nextInt(2);
-                if (randDir == 0) {
-                    shiparr[i].setDirection("n");
-                } else {
-                    shiparr[i].setDirection("e");
-                }
-                type = shiparr[i].getType();
-                length = shiparr[i].getLength();
-                direction = shiparr[i].getDirection();
-                if (direction.equals("n")) {
-                    xLim = dim;
-                    yLim = dim - length;
-                } else {
-                    xLim = dim - length;
-                    yLim = dim;
-                }
-                int x = rand.nextInt(xLim);
-                int y = rand.nextInt(yLim);
-                while (!check(x, y)) {
-                    x = rand.nextInt(xLim);
-                    y = rand.nextInt(yLim);
-                }
-                placeShip(x, y);
-            }
 
-        }
 
         public void RandomHit() {
             Random ran = new Random();

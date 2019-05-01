@@ -74,22 +74,22 @@ public class ComputerActivity extends AppCompatActivity implements DialogInterfa
                 }
             }
             carrier = findViewById(R.id.carrier_ship2);
-            carrier.setType("carrier");
+            carrier.setType("Frigate");
             carrier.setLength(5);
 
 
             battleship = findViewById(R.id.battle_ship2);
-            battleship.setType("cruiser");
+            battleship.setType("Caravel");
             battleship.setLength(3);
 
 
             cruiser = findViewById(R.id.cruiser_ship2);
-            cruiser.setType("destroyer");
+            cruiser.setType("Dandy");
             cruiser.setLength(2);
 
 
             sub = findViewById(R.id.sub_ship2);
-            sub.setType("sub");
+            sub.setType("Sloop");
             sub.setLength(3);
 
             Ship[] temp = {carrier,battleship,cruiser,sub};
@@ -180,84 +180,86 @@ public class ComputerActivity extends AppCompatActivity implements DialogInterfa
         }
 
 
-
-        protected class myOnClickListener implements View.OnClickListener {
-            @Override
-            public void onClick(View v) {
-                Tile t = (Tile) v;
-                if (t.getState() ==0) {
-                    t.setState(4);
-                    t.setBackgroundColor(Color.BLACK);
-                    message =true;
-                    FragmentManager fm = getSupportFragmentManager();
-                    popFrag editNameDialogFragment = popFrag.newInstance("Take off ye eye-patch!");
-                    editNameDialogFragment.show(fm, "fragment_edit_name");
-                } else if (t.getState()== 1) {
-                    t.setState(2);
-                    String name = t.getShip();
-                    if(name.equals("")){
-                        Log.v("empty","empty ship");
-                    }
-                    Log.v("hit",t.getShip());
-                    for (int ship = 0; ship < shiparr.length; ship++) {
-                        if (shiparr[ship].getType().equals(name)) {
-                            shiparr[ship].hit(t.getPosX(), t.getPosY());
-                            if (shiparr[ship].isSunk()) {
-                                sink(name);
-                                if(!AllSunk) {
-                                    message = true;
-                                    FragmentManager fm = getSupportFragmentManager();
-                                    popFrag editNameDialogFragment = popFrag.newInstance("Ye've plundered their " + name + "!");
-                                    editNameDialogFragment.show(fm, "fragment_edit_name");
-                                }
-                            } else {
-                                t.setState(2);
-                                t.setBackgroundColor(Color.RED);
+    protected class myOnClickListener implements View.OnClickListener {
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+        @Override
+        public void onClick(View v) {
+            Tile t = (Tile) v;
+            if (t.getState() ==0) {
+                t.setState(4);
+                t.setBackground(getDrawable(R.drawable.ocean_tile_miss));
+                message =true;
+                FragmentManager fm = getSupportFragmentManager();
+                popFrag editNameDialogFragment = popFrag.newInstance("Take off ye eye-patch!");
+                editNameDialogFragment.show(fm, "fragment_edit_name");
+            } else if (t.getState()== 1) {
+                t.setState(2);
+                String name = t.getShip();
+                if(name.equals("")){
+                    Log.v("empty","empty ship");
+                }
+                Log.v("hit",t.getShip());
+                for (int ship = 0; ship < shiparr.length; ship++) {
+                    if (shiparr[ship].getType().equals(name)) {
+                        shiparr[ship].hit(t.getPosX(), t.getPosY());
+                        if (shiparr[ship].isSunk()) {
+                            sink(name);
+                            if(!AllSunk) {
                                 message = true;
                                 FragmentManager fm = getSupportFragmentManager();
-                                popFrag editNameDialogFragment = popFrag.newInstance("Aye ye hit 'em!");
+                                popFrag editNameDialogFragment = popFrag.newInstance("Ye've plundered their " + name + "!");
                                 editNameDialogFragment.show(fm, "fragment_edit_name");
                             }
+                        } else {
+                            t.setState(2);
+                            t.setBackgroundColor(Color.RED);
+                            message = true;
+                            FragmentManager fm = getSupportFragmentManager();
+                            popFrag editNameDialogFragment = popFrag.newInstance("Aye ye hit 'em!");
+                            editNameDialogFragment.show(fm, "fragment_edit_name");
                         }
                     }
                 }
-                File directory = getFilesDir(); //or getExternalFilesDir(null); for external storage
-                File file = new File(directory, "config.txt");
-                file.delete();
-                try {
-                    file.createNewFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                writeToFile(getApplicationContext());
-                String read = readFromFile(getApplicationContext());
-                Log.v("writing",read);
-               // finish();
+            }
+            File directory = getFilesDir(); //or getExternalFilesDir(null); for external storage
+            File file = new File(directory, "config.txt");
+            file.delete();
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            writeToFile(getApplicationContext());
+            String read = readFromFile(getApplicationContext());
+            Log.v("writing",read);
+            // finish();
 
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void sink(String name) {
+        for (int i = 0; i < dim; i++) {
+            for (int j = 0; j < dim; j++) {
+                if (buttons[i][j].getShip().equals(name)) {
+                    buttons[i][j].setState(3);
+                    Drawable part = getDrawable(R.drawable.ocean_tile_death);
+                    buttons[i][j].setBackground(part);
+                }
             }
         }
-
-        public void sink(String name) {
-            for (int i = 0; i < dim; i++) {
-                for (int j = 0; j < dim; j++) {
-                    if (buttons[i][j].getShip().equals(name)) {
-                        buttons[i][j].setState(3);
-                        buttons[i][j].setBackgroundColor(Color.YELLOW);
-                    }
-                }
-            }
-            AllSunk = true;
-            for(int k = 0; k < shiparr.length; k++){
-                if(!shiparr[k].isSunk()){
-                    AllSunk = false;
-                }
-            }
-            if(AllSunk){
-                FragmentManager fm = getSupportFragmentManager();
-                finalfrag editNameDialogFragment = finalfrag.newInstance("Victory!");
-                editNameDialogFragment.show(fm, "fragment_edit_name");
+        AllSunk = true;
+        for(int k = 0; k < shiparr.length; k++){
+            if(!shiparr[k].isSunk()){
+                AllSunk = false;
             }
         }
+        if(AllSunk){
+            FragmentManager fm = getSupportFragmentManager();
+            finalfrag editNameDialogFragment = finalfrag.newInstance("Victory!");
+            editNameDialogFragment.show(fm, "fragment_edit_name");
+        }
+    }
 
         protected class Computer{
             public Computer(){
@@ -370,7 +372,7 @@ public class ComputerActivity extends AppCompatActivity implements DialogInterfa
                     for(int j = 202; j <221; j+=4){
                         int y =  Character.getNumericValue(s.charAt(j));
                         int x = Character.getNumericValue(s.charAt(j+2));
-                        buttons[y][x].setShip("carrier");
+                        buttons[y][x].setShip("Frigate");
                     }
                     carrier.setHealth(Character.getNumericValue(s.charAt(222)));
                     Log.v("carrier Health", "" + carrier.getHealth());
@@ -381,7 +383,7 @@ public class ComputerActivity extends AppCompatActivity implements DialogInterfa
                     for(int j = 226; j <237; j+=4){
                         int y =  Character.getNumericValue(s.charAt(j));
                         int x = Character.getNumericValue(s.charAt(j+2));
-                        buttons[y][x].setShip("cruiser");
+                        buttons[y][x].setShip("Caravel");
                     }
                     battleship.setHealth(Character.getNumericValue(s.charAt(238)));
 
@@ -392,7 +394,7 @@ public class ComputerActivity extends AppCompatActivity implements DialogInterfa
                     for(int j = 242; j <249; j+=4){
                         int y =  Character.getNumericValue(s.charAt(j));
                         int x = Character.getNumericValue(s.charAt(j+2));
-                        buttons[y][x].setShip("destroyer");
+                        buttons[y][x].setShip("Dandy");
                     }
                     cruiser.setHealth(Character.getNumericValue(s.charAt(250)));
 
@@ -403,7 +405,7 @@ public class ComputerActivity extends AppCompatActivity implements DialogInterfa
                     for(int j = 254; j <265; j+=4){
                         int y =  Character.getNumericValue(s.charAt(j));
                         int x = Character.getNumericValue(s.charAt(j+2));
-                        buttons[y][x].setShip("sub");
+                        buttons[y][x].setShip("Sloop");
                     }
                     sub.setHealth(Character.getNumericValue(s.charAt(266)));
                 }
@@ -422,10 +424,10 @@ public class ComputerActivity extends AppCompatActivity implements DialogInterfa
                         buttons[i][j].setBackgroundColor(Color.RED);
                         break;
                     case 3:
-                        buttons[i][j].setBackgroundColor(Color.YELLOW);
+                        buttons[i][j].setBackground(getDrawable(R.drawable.ocean_tile_death));
                         break;
                     case 4:
-                        buttons[i][j].setBackgroundColor(Color.BLACK);
+                        buttons[i][j].setBackground(getDrawable(R.drawable.ocean_tile_miss));
                         break;
                 }
             }

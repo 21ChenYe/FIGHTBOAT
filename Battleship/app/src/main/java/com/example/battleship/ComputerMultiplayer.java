@@ -84,22 +84,22 @@ public class ComputerMultiplayer extends AppCompatActivity implements DialogInte
             }
         }
         carrier = findViewById(R.id.carrier_ship2);
-        carrier.setType("carrier");
+        carrier.setType("Frigate");
         carrier.setLength(5);
 
 
         battleship = findViewById(R.id.battle_ship2);
-        battleship.setType("cruiser");
+        battleship.setType("Caravel");
         battleship.setLength(3);
 
 
         cruiser = findViewById(R.id.cruiser_ship2);
-        cruiser.setType("destroyer");
+        cruiser.setType("Dandy");
         cruiser.setLength(2);
 
 
         sub = findViewById(R.id.sub_ship2);
-        sub.setType("sub");
+        sub.setType("Sloop");
         sub.setLength(3);
 
         Ship[] temp = {carrier,battleship,cruiser,sub};
@@ -223,12 +223,13 @@ public class ComputerMultiplayer extends AppCompatActivity implements DialogInte
 
 
     protected class myOnClickListener implements View.OnClickListener {
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @Override
         public void onClick(View v) {
             Tile t = (Tile) v;
             if (t.getState() ==0) {
                 t.setState(4);
-                t.setBackgroundColor(Color.BLACK);
+                t.setBackground(getDrawable(R.drawable.ocean_tile_miss));
                 message =true;
                 FragmentManager fm = getSupportFragmentManager();
                 popFrag editNameDialogFragment = popFrag.newInstance("Take off ye eye-patch!");
@@ -278,12 +279,14 @@ public class ComputerMultiplayer extends AppCompatActivity implements DialogInte
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void sink(String name) {
         for (int i = 0; i < dim; i++) {
             for (int j = 0; j < dim; j++) {
                 if (buttons[i][j].getShip().equals(name)) {
                     buttons[i][j].setState(3);
-                    buttons[i][j].setBackgroundColor(Color.YELLOW);
+                    Drawable part = getDrawable(R.drawable.ocean_tile_death);
+                    buttons[i][j].setBackground(part);
                 }
             }
         }
@@ -411,7 +414,7 @@ public class ComputerMultiplayer extends AppCompatActivity implements DialogInte
         for(int j = 202; j <221; j+=4){
             int y =  Character.getNumericValue(s.charAt(j));
             int x = Character.getNumericValue(s.charAt(j+2));
-            buttons[y][x].setShip("carrier");
+            buttons[y][x].setShip("Frigate");
         }
         carrier.setHealth(Character.getNumericValue(s.charAt(222)));
         Log.v("carrier Health", "" + carrier.getHealth());
@@ -422,7 +425,7 @@ public class ComputerMultiplayer extends AppCompatActivity implements DialogInte
         for(int j = 226; j <237; j+=4){
             int y =  Character.getNumericValue(s.charAt(j));
             int x = Character.getNumericValue(s.charAt(j+2));
-            buttons[y][x].setShip("cruiser");
+            buttons[y][x].setShip("Caravel");
         }
         battleship.setHealth(Character.getNumericValue(s.charAt(238)));
 
@@ -433,7 +436,7 @@ public class ComputerMultiplayer extends AppCompatActivity implements DialogInte
         for(int j = 242; j <249; j+=4){
             int y =  Character.getNumericValue(s.charAt(j));
             int x = Character.getNumericValue(s.charAt(j+2));
-            buttons[y][x].setShip("destroyer");
+            buttons[y][x].setShip("Dandy");
         }
         cruiser.setHealth(Character.getNumericValue(s.charAt(250)));
 
@@ -444,7 +447,7 @@ public class ComputerMultiplayer extends AppCompatActivity implements DialogInte
         for(int j = 254; j <265; j+=4){
             int y =  Character.getNumericValue(s.charAt(j));
             int x = Character.getNumericValue(s.charAt(j+2));
-            buttons[y][x].setShip("sub");
+            buttons[y][x].setShip("Sloop");
         }
         sub.setHealth(Character.getNumericValue(s.charAt(266)));
     }
@@ -463,10 +466,10 @@ public class ComputerMultiplayer extends AppCompatActivity implements DialogInte
                         buttons[i][j].setBackgroundColor(Color.RED);
                         break;
                     case 3:
-                        buttons[i][j].setBackgroundColor(Color.YELLOW);
+                        buttons[i][j].setBackground(getDrawable(R.drawable.ocean_tile_death));
                         break;
                     case 4:
-                        buttons[i][j].setBackgroundColor(Color.BLACK);
+                        buttons[i][j].setBackground(getDrawable(R.drawable.ocean_tile_miss));
                         break;
                 }
             }
