@@ -397,9 +397,6 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
         }
         if (AllPlaced){
             String temp = writeToServer();
-            while(temp.equals(value)){
-
-            }
             if(playerfirst){
                 value = value.charAt(0) + temp + value.substring(287);
             }
@@ -411,6 +408,9 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
             reference.child(id).setValue(value);
             player.setText("Your Map");
             buttonRotate.setVisibility(View.GONE);
+            while(initial.equals(value)){
+
+                }
             Intent change = new Intent(Multiplayer.this, ComputerActivity.class);
             change.putExtra("player",playerfirst);
             startActivity(change);
