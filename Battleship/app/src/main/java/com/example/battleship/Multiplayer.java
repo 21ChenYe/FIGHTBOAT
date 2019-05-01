@@ -54,8 +54,7 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
     private Computer comp;
     private boolean AllPlaced;
     private String value;
-    private boolean playerfirst;
-    private String initial;
+    private boolean update = false;
     Ship[] shiparr;
 
 
@@ -113,7 +112,7 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
             sub.setType("sub");
             sub.setLength(3);
 
-            Ship[] temp = {battleship, cruiser, sub, carrier};
+            Ship[] temp = {carrier,battleship,cruiser,sub};
             shiparr = temp;
             for (int ship = 0; ship < shiparr.length; ship++) {
                 myOnLongClickListener LongClickListen = new myOnLongClickListener();
@@ -157,25 +156,15 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 value = dataSnapshot.getValue(String.class);
-                int check = Character.getNumericValue(value.charAt(0));
-                if (check == 0){
-                    Log.v("read",value);
-                    playerfirst = true;
-                    value = "1" + value.substring(1);
-                    initial = value;
-                    reference.child(id).setValue(value);
-                }
-                else{
-                    playerfirst = false;
-                    value = "0" + value.substring(1);
-                    initial = value;
-                    reference.child(id).setValue(value);
+                if(value.equals("a")){
+                    update = true;
                 }
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 value = dataSnapshot.getValue(String.class);
+                Log.v("change","changed");
 
             }
 
@@ -196,19 +185,11 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
         });
     }
 
-
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onResume(){
         super.onResume();
         if(AllPlaced) {
-            if(playerfirst){
-                while(initial == value.substring(1,287)){
-                    LoadGame(value.substring(1,287));
-                    FlashMap();
-                }
-
-            }
+            comp.RandomHit();
         }
 
     }
@@ -391,30 +372,22 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
                 shiparr[k].setPositions(x, y);
                 shiparr[k].setVisibility(View.GONE);
             }
-            if(shiparr[k].isPlaced() == false){
+            if (shiparr[k].isPlaced() == false) {
                 AllPlaced = false;
             }
         }
-        if (AllPlaced){
-            String temp = writeToServer();
-            if(playerfirst){
-                value = value.charAt(0) + temp + value.substring(287);
-            }
-            else {
-                value = value.substring(0,287) + temp;
-
-            }
-            initial = temp;
-            String test = value;
-            reference.child(id).setValue(value);
+        if (AllPlaced) {
             player.setText("Your Map");
             buttonRotate.setVisibility(View.GONE);
-            while(test.equals(value)){
-
-                }
-            Intent change = new Intent(Multiplayer.this, ComputerActivity.class);
-            change.putExtra("player",playerfirst);
-            startActivity(change);
+            if (update) {
+                String s = writeToServer();
+                reference.child(id).setValue(s);
+                Intent change = new Intent(Multiplayer.this, ComputerActivity.class);
+                startActivity(change);
+            } else {
+                Intent change = new Intent(Multiplayer.this, ComputerMultiplayer.class);
+                startActivity(change);
+            }
         }
     }
 
@@ -516,7 +489,39 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
             Ship[] temp = {battleship, cruiser, sub, carrier};
             shiparr = temp;
         }
+        @TargetApi(Build.VERSION_CODES.M)
+        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+        protected void RandomPlace() {
+            int xLim;
+            int yLim;
+            Random rand = new Random();
+            for (int i = 0; i < shiparr.length; i++) {
+                int randDir = rand.nextInt(2);
+                if (randDir == 0) {
+                    shiparr[i].setDirection("n");
+                } else {
+                    shiparr[i].setDirection("e");
+                }
+                type = shiparr[i].getType();
+                length = shiparr[i].getLength();
+                direction = shiparr[i].getDirection();
+                if (direction.equals("n")) {
+                    xLim = dim;
+                    yLim = dim - length;
+                } else {
+                    xLim = dim - length;
+                    yLim = dim;
+                }
+                int x = rand.nextInt(xLim);
+                int y = rand.nextInt(yLim);
+                while (!check(x, y)) {
+                    x = rand.nextInt(xLim);
+                    y = rand.nextInt(yLim);
+                }
+                placeShip(x, y);
+            }
 
+        }
 
         public void RandomHit() {
             Random ran = new Random();
@@ -530,6 +535,9 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
             buttons[y][x].performClick();
         }
     }
+
+
+
     private String writeToServer() {
            String temp = "";
             for(int i = 0; i < 10; i++) {
@@ -541,7 +549,7 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
                 temp = temp + shiparr[i].getDirection() + ",";
                 Vector positions = shiparr[i].getPositions();
                 for (int k = 0; k < positions.size(); k++) {
-                    temp = temp + ((int) positions.get(k)) + ",";
+                    temp = temp + positions.get(k) + ",";
                 }
                 int health = shiparr[i].getHealth();
                 temp = temp + health + ",";

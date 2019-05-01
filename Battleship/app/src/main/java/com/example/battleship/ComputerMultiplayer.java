@@ -57,10 +57,8 @@ public class ComputerMultiplayer extends AppCompatActivity implements DialogInte
     private Computer comp;
     private boolean message = false;
     private boolean AllSunk = false;
-    private boolean playerfirst;
-    private String value;
+    String value;
     Ship[] shiparr;
-
     DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
     String id = "game";
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -68,8 +66,6 @@ public class ComputerMultiplayer extends AppCompatActivity implements DialogInte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent receive = getIntent();
-        playerfirst = receive.getBooleanExtra("player",false);
         setContentView(R.layout.content_computer);
         comp = new Computer();
         player = findViewById(R.id.text_view_player2);
@@ -108,23 +104,20 @@ public class ComputerMultiplayer extends AppCompatActivity implements DialogInte
 
         Ship[] temp = {carrier,battleship,cruiser,sub};
         shiparr = temp;
+        File directory = getFilesDir();
         reference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 value = dataSnapshot.getValue(String.class);
-               if(playerfirst){
-                   String second = value.substring(287);
-                   LoadGame(second);
-               }
-               else{
-                   String second = value.substring(1,287);
-                   LoadGame(second);
-               }
+                if(!value.equals("a"))
+                LoadGame(value);
+                //reference.child(id).setValue("a");
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 value = dataSnapshot.getValue(String.class);
+                Log.v("change","changed");
 
             }
 
@@ -143,6 +136,26 @@ public class ComputerMultiplayer extends AppCompatActivity implements DialogInte
 
             }
         });
+        try {
+            Log.v("boop",directory.getCanonicalPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        File file = new File(directory, "config.txt");
+        if(file.exists()) {
+            String read = readFromFile(getApplicationContext());
+            Log.v("length",read);
+            LoadGame(read);
+            FlashMap();
+        }
+        else{
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+           // comp.RandomPlace();
+        }
         FragmentManager fm = getSupportFragmentManager();
         popFrag editNameDialogFragment = popFrag.newInstance("Choose Your Attack");
         editNameDialogFragment.show(fm, "fragment_edit_name");
@@ -249,15 +262,17 @@ public class ComputerMultiplayer extends AppCompatActivity implements DialogInte
                     }
                 }
             }
-            String map = writeToServer();
-            if(playerfirst){
-                value = value.substring(1,287) + map;
-                reference.child(id).setValue(value);
+            File directory = getFilesDir(); //or getExternalFilesDir(null); for external storage
+            File file = new File(directory, "config.txt");
+            file.delete();
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            else {
-                value = value.charAt(0)+ map + value.substring(287);
-                reference.child(id).setValue(value);
-            }
+            writeToFile(getApplicationContext());
+            String read = readFromFile(getApplicationContext());
+            Log.v("writing",read);
             // finish();
 
         }
@@ -352,23 +367,34 @@ public class ComputerMultiplayer extends AppCompatActivity implements DialogInte
         return ret;
     }
 
-    private String writeToServer() {
-        String temp = "";
-        for(int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                temp = temp + buttons[i][j].getState() + ",";
+    private void writeToFile(Context context) {
+        try {
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("config.txt", Context.MODE_PRIVATE));
+            String states = "";
+            for(int i = 0; i < 10; i++) {
+                for (int j = 0; j < 10; j++) {
+                    states = states + buttons[i][j].getState() + ",";
+                }
             }
-        }
-        for(int i = 0; i <shiparr.length;i++) {
-            temp = temp + shiparr[i].getDirection() + ",";
-            Vector positions = shiparr[i].getPositions();
-            for (int k = 0; k < positions.size(); k++) {
-                temp = temp + ((int) positions.get(k)) + ",";
+            outputStreamWriter.write(states);
+
+            for(int i = 0; i <shiparr.length;i++) {
+                String ship = "";
+                ship = ship + shiparr[i].getDirection() + ",";
+                outputStreamWriter.write(ship);
+                Vector positions = shiparr[i].getPositions();
+                for (int k = 0; k < positions.size(); k++) {
+                    outputStreamWriter.write(((int) positions.get(k)) + ",");
+                }
+                int health = shiparr[i].getHealth();
+                Log.v("fucky wucky", "" + health);
+                outputStreamWriter.write(health + ",");
             }
-            int health = shiparr[i].getHealth();
-            temp = temp + health + ",";
+            outputStreamWriter.close();
         }
-        return temp;
+        catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
     }
 
     private void LoadGame(String s){
