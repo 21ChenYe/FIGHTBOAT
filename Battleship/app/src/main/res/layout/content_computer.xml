@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="660dp"
+    android:background="@android:color/holo_blue_light"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -23,6 +24,7 @@
             android:tag=""
             android:text="Enemy's Map"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="#FFFFFF"
             android:textSize="30sp" />
 
 

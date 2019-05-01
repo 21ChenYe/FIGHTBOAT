@@ -218,11 +218,11 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                     if (direction.equals("n")) {
 
                         for (int i = y; i < y + length; i++) {
-                            buttons[i][x].setBackgroundColor(Color.GREEN);
+                            buttons[i][x].setBackgroundColor(Color.WHITE);
                         }
                     } else {
                         for (int i = x; i < x + length; i++) {
-                            buttons[y][i].setBackgroundColor(Color.GREEN);
+                            buttons[y][i].setBackgroundColor(Color.WHITE);
                         }
                     }
 
@@ -372,13 +372,13 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                         } else {
                             t.setState(2);
                             if(shiparr[ship].getDirection().equals("n")) {
-                                String drawName = t.getShip() + "_" + t.getShipPart() +  "_x";
+                                String drawName = t.getShip() + "_" + t.getShipPart()  + "1" + "_x";
                                 int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
                                 Drawable part = getDrawable(resId);
                                 t.setBackground(part);
                             }
                             else {
-                                String drawName = t.getShip() + "_" + t.getShipPart()  + "1" + "_x";
+                                String drawName = t.getShip() + "_" + t.getShipPart()   + "_x";
                                 int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
                                 Drawable part = getDrawable(resId);
                                 t.setBackground(part);

@@ -422,13 +422,14 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
                         } else {
                             t.setState(2);
                             if(shiparr[ship].getDirection().equals("n")) {
-                                String drawName = t.getShip() + "_" + t.getShipPart() +  "_x";
+                                String drawName = t.getShip() + "_" + t.getShipPart()  + "1" +"_x";
+
                                 int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
                                 Drawable part = getDrawable(resId);
                                 t.setBackground(part);
                             }
                             else {
-                                String drawName = t.getShip() + "_" + t.getShipPart()  + "1" +"_x";
+                                String drawName = t.getShip() + "_" + t.getShipPart() +  "_x";
                                 int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
                                 Drawable part = getDrawable(resId);
                                 t.setBackground(part);
