@@ -3,6 +3,7 @@ package com.example.battleship;
 import android.annotation.TargetApi;
 import android.content.ClipData;
 import android.content.ClipDescription;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -11,6 +12,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
@@ -24,8 +27,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.Random;
 import java.util.Vector;
 
@@ -43,7 +53,14 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
     private int length;
     private Computer comp;
     private boolean AllPlaced;
+    private String value;
+    private boolean playerfirst;
+    private String initial;
     Ship[] shiparr;
+
+
+    DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+    String id = "game";
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -136,13 +153,62 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
         File directory = getFilesDir();
         File file = new File(directory, "config.txt");
         file.delete();
+        reference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                value = dataSnapshot.getValue(String.class);
+                int check = Character.getNumericValue(value.charAt(0));
+                if (check == 0){
+                    Log.v("read",value);
+                    playerfirst = true;
+                    value = "1" + value.substring(1);
+                    initial = value;
+                    reference.child(id).setValue(value);
+                }
+                else{
+                    playerfirst = false;
+                    value = "0" + value.substring(1);
+                    initial = value;
+                    reference.child(id).setValue(value);
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                value = dataSnapshot.getValue(String.class);
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onResume(){
         super.onResume();
         if(AllPlaced) {
-            comp.RandomHit();
+            if(playerfirst){
+                while(initial == value.substring(1,287)){
+                    LoadGame(value.substring(1,287));
+                    FlashMap();
+                }
+
+            }
         }
 
     }
@@ -330,9 +396,23 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
             }
         }
         if (AllPlaced){
+            String temp = writeToServer();
+            while(temp.equals(value)){
+
+            }
+            if(playerfirst){
+                value = value.charAt(0) + temp + value.substring(287);
+            }
+            else {
+                value = value.substring(0,287) + temp;
+
+            }
+            initial = temp;
+            reference.child(id).setValue(value);
             player.setText("Your Map");
             buttonRotate.setVisibility(View.GONE);
             Intent change = new Intent(Multiplayer.this, ComputerActivity.class);
+            change.putExtra("player",playerfirst);
             startActivity(change);
         }
     }
@@ -435,39 +515,7 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
             Ship[] temp = {battleship, cruiser, sub, carrier};
             shiparr = temp;
         }
-        @TargetApi(Build.VERSION_CODES.M)
-        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-        protected void RandomPlace() {
-            int xLim;
-            int yLim;
-            Random rand = new Random();
-            for (int i = 0; i < shiparr.length; i++) {
-                int randDir = rand.nextInt(2);
-                if (randDir == 0) {
-                    shiparr[i].setDirection("n");
-                } else {
-                    shiparr[i].setDirection("e");
-                }
-                type = shiparr[i].getType();
-                length = shiparr[i].getLength();
-                direction = shiparr[i].getDirection();
-                if (direction.equals("n")) {
-                    xLim = dim;
-                    yLim = dim - length;
-                } else {
-                    xLim = dim - length;
-                    yLim = dim;
-                }
-                int x = rand.nextInt(xLim);
-                int y = rand.nextInt(yLim);
-                while (!check(x, y)) {
-                    x = rand.nextInt(xLim);
-                    y = rand.nextInt(yLim);
-                }
-                placeShip(x, y);
-            }
 
-        }
 
         public void RandomHit() {
             Random ran = new Random();
@@ -479,6 +527,98 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
             }
             Log.v("why", "" + x +" , "+ y);
             buttons[y][x].performClick();
+        }
+    }
+    private String writeToServer() {
+           String temp = "";
+            for(int i = 0; i < 10; i++) {
+                for (int j = 0; j < 10; j++) {
+                    temp = temp + buttons[i][j].getState() + ",";
+                }
+            }
+            for(int i = 0; i <shiparr.length;i++) {
+                temp = temp + shiparr[i].getDirection() + ",";
+                Vector positions = shiparr[i].getPositions();
+                for (int k = 0; k < positions.size(); k++) {
+                    temp = temp + ((int) positions.get(k)) + ",";
+                }
+                int health = shiparr[i].getHealth();
+                temp = temp + health + ",";
+            }
+            return temp;
+    }
+    private void LoadGame(String s){
+        for(int i = 0; i <200; i += 2){
+            int a  =i/2;
+            int y = a/10;
+            int x = a%10;
+            buttons[y][x].setState(Character.getNumericValue(s.charAt(i)));
+        }
+        carrier.setDirection("" + s.charAt(200));
+        int w = Character.getNumericValue(s.charAt(202));
+        int q = Character.getNumericValue(s.charAt(204));
+        carrier.setPositions(q,w);
+        for(int j = 202; j <221; j+=4){
+            int y =  Character.getNumericValue(s.charAt(j));
+            int x = Character.getNumericValue(s.charAt(j+2));
+            buttons[y][x].setShip("carrier");
+        }
+        carrier.setHealth(Character.getNumericValue(s.charAt(222)));
+        Log.v("carrier Health", "" + carrier.getHealth());
+        battleship.setDirection("" + s.charAt(224));
+        w = Character.getNumericValue(s.charAt(226));
+        q = Character.getNumericValue(s.charAt(228));
+        battleship.setPositions(q,w);
+        for(int j = 226; j <237; j+=4){
+            int y =  Character.getNumericValue(s.charAt(j));
+            int x = Character.getNumericValue(s.charAt(j+2));
+            buttons[y][x].setShip("cruiser");
+        }
+        battleship.setHealth(Character.getNumericValue(s.charAt(238)));
+
+        cruiser.setDirection("" + s.charAt(240));
+        w = Character.getNumericValue(s.charAt(242));
+        q = Character.getNumericValue(s.charAt(244));
+        cruiser.setPositions(q,w);
+        for(int j = 242; j <249; j+=4){
+            int y =  Character.getNumericValue(s.charAt(j));
+            int x = Character.getNumericValue(s.charAt(j+2));
+            buttons[y][x].setShip("destroyer");
+        }
+        cruiser.setHealth(Character.getNumericValue(s.charAt(250)));
+
+        sub.setDirection("" + s.charAt(252));
+        w = Character.getNumericValue(s.charAt(254));
+        q = Character.getNumericValue(s.charAt(256));
+        sub.setPositions(q,w);
+        for(int j = 254; j <265; j+=4){
+            int y =  Character.getNumericValue(s.charAt(j));
+            int x = Character.getNumericValue(s.charAt(j+2));
+            buttons[y][x].setShip("sub");
+        }
+        sub.setHealth(Character.getNumericValue(s.charAt(266)));
+    }
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void FlashMap(){
+        for(int i = 0; i <10; i++){
+            for(int j = 0; j<10; j++){
+                int State = buttons[i][j].getState();
+                switch (State){
+                    case 0:
+                    case 1:
+                        buttons[i][j].setBackground(getDrawable(R.drawable.ocean_tile));
+                        break;
+                    case 2:
+                        buttons[i][j].setBackgroundColor(Color.RED);
+                        break;
+                    case 3:
+                        buttons[i][j].setBackgroundColor(Color.YELLOW);
+                        break;
+                    case 4:
+                        buttons[i][j].setBackgroundColor(Color.BLACK);
+                        break;
+                }
+            }
         }
     }
 }

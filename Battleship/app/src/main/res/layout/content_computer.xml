@@ -54,7 +54,6 @@
             android:layout_marginTop="55dp"
             android:layout_marginRight="0dp"
             android:layout_marginBottom="0dp"
-            android:background="@drawable/bship"
             android:visibility="gone" />
 
         <com.example.battleship.Ship
