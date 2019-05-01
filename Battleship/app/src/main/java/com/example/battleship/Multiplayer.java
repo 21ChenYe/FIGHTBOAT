@@ -95,21 +95,25 @@ public class Multiplayer extends AppCompatActivity implements DialogInterface.On
             }
             carrier = findViewById(R.id.carrier_ship);
             carrier.setType("frigate");
+            carrier.setDirection("e");
             carrier.setLength(5);
 
 
             battleship = findViewById(R.id.battle_ship);
             battleship.setType("caravel");
+            battleship.setDirection("e");
             battleship.setLength(3);
 
 
             cruiser = findViewById(R.id.cruiser_ship);
             cruiser.setType("dandy");
+            cruiser.setDirection("e");
             cruiser.setLength(2);
 
 
             sub = findViewById(R.id.sub_ship);
             sub.setType("sloop");
+            sub.setDirection("e");
             sub.setLength(3);
 
             Ship[] temp = {carrier,battleship,cruiser,sub};

@@ -74,21 +74,25 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
             }
             carrier = findViewById(R.id.carrier_ship);
             carrier.setType("frigate");
+            carrier.setDirection("e");
             carrier.setLength(5);
 
 
             battleship = findViewById(R.id.battle_ship);
             battleship.setType("caravel");
+            battleship.setDirection("e");
             battleship.setLength(3);
 
 
             cruiser = findViewById(R.id.cruiser_ship);
             cruiser.setType("dandy");
+            cruiser.setDirection("e");
             cruiser.setLength(2);
 
 
             sub = findViewById(R.id.sub_ship);
             sub.setType("sloop");
+            sub.setDirection("e");
             sub.setLength(3);
 
             Ship[] temp = {battleship, cruiser, sub, carrier};
@@ -137,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
     protected void onResume(){
         super.onResume();
         if(AllPlaced) {
-            comp.RandomHit();
+           // comp.RandomHit();
         }
 
     }
@@ -298,6 +302,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                 buttons[i + y][x].setShip(type);
                 buttons[i + y][x].setShipPart(i + 1);
                 String drawName = buttons[i + y][x].getShip() + "_" + buttons[i + y][x].getShipPart() + 1;
+                Log.v("place",drawName);
                 int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
                 Drawable part = getDrawable(resId);
                 buttons[i + y][x].setBackground(part);
@@ -309,6 +314,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                 buttons[y][x + i].setShip(type);
                 buttons[y][x + i].setShipPart(i + 1);
                 String drawName = buttons[y][x + i].getShip() + "_" + buttons[y][x + i].getShipPart();
+                Log.v("place",drawName);
                 int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
                 Drawable part = getDrawable(resId);
                 buttons[y][x + i].setBackground(part);
@@ -371,6 +377,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                             }
                         } else {
                             t.setState(2);
+                            Log.v("orientation",shiparr[ship].getDirection());
                             if(shiparr[ship].getDirection().equals("n")) {
                                 String drawName = t.getShip() + "_" + t.getShipPart()  + "1" + "_x";
                                 int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
