@@ -8,7 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.content.Intent;
 import android.widget.TextView;
-
+/*
+    This is the main menu for the game, the textviews are links to the 
+ */
 public class MainMenu extends AppCompatActivity {
 private MediaPlayer mp;
 

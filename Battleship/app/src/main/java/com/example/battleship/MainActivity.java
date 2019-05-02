@@ -107,23 +107,39 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                 @Override
                 public void onClick(View v) {
                     if (carrier.getRotation() == 0) {
-                        carrier.setRotation(carrier.getRotation() + 90);
-                        carrier.setDirection("n");
-                        battleship.setRotation(battleship.getRotation() + 90);
-                        battleship.setDirection("n");
-                        cruiser.setRotation(cruiser.getRotation() + 90);
-                        cruiser.setDirection("n");
-                        sub.setRotation(sub.getRotation() + 90);
-                        sub.setDirection("n");
+                        if(!carrier.isPlaced()) {
+                            carrier.setRotation(carrier.getRotation() + 90);
+                            carrier.setDirection("n");
+                        }
+                        if(!battleship.isPlaced()) {
+                            battleship.setRotation(battleship.getRotation() + 90);
+                            battleship.setDirection("n");
+                        }
+                        if(!cruiser.isPlaced()) {
+                            cruiser.setRotation(cruiser.getRotation() + 90);
+                            cruiser.setDirection("n");
+                        }
+                        if(!sub.isPlaced()) {
+                            sub.setRotation(sub.getRotation() + 90);
+                            sub.setDirection("n");
+                        }
                     } else {
-                        carrier.setRotation(carrier.getRotation() - 90);
-                        carrier.setDirection("e");
-                        battleship.setRotation(battleship.getRotation() - 90);
-                        battleship.setDirection("e");
-                        cruiser.setRotation(cruiser.getRotation() - 90);
-                        cruiser.setDirection("e");
-                        sub.setRotation(sub.getRotation() - 90);
-                        sub.setDirection("e");
+                        if(!carrier.isPlaced()) {
+                            carrier.setRotation(carrier.getRotation() - 90);
+                            carrier.setDirection("e");
+                        }
+                        if(!battleship.isPlaced()) {
+                            battleship.setRotation(battleship.getRotation() - 90);
+                            battleship.setDirection("e");
+                        }
+                        if(!cruiser.isPlaced()) {
+                            cruiser.setRotation(cruiser.getRotation() - 90);
+                            cruiser.setDirection("e");
+                        }
+                        if(!sub.isPlaced()) {
+                            sub.setRotation(sub.getRotation() - 90);
+                            sub.setDirection("e");
+                        }
                     }
                 }
             });
@@ -141,8 +157,9 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
     protected void onResume(){
         super.onResume();
         if(AllPlaced) {
-           // comp.RandomHit();
+           comp.RandomHit();
         }
+
 
     }
 
