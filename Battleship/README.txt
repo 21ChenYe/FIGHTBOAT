@@ -1,0 +1,1 @@
+In order to compile this app first go into the SDK manager in android studio and go to the sdk tools tab. Then check all of the google play tools. Then ensure that the device you are using to emulate is API 28 with Google Play. Then click the run selected program button and the app should load onto the emulator that you select.
