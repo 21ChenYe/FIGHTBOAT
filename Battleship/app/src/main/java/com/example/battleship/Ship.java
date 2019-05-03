@@ -5,9 +5,12 @@ import android.util.AttributeSet;
 
 import java.util.Vector;
 
-
+/* Ship object in game
+    Holds information on the type of ship, which direction it is facing in,
+    the health of the ship, where it is placed, if it is sunk, and if it is placed
+ */
 public class Ship extends android.support.v7.widget.AppCompatImageButton {
-    private String direction; //n,s,e,w
+    private String direction; //n,e
     private String type;
     private int length;
     private int health;

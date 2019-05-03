@@ -1,12 +1,8 @@
 package com.example.battleship;
 
 import android.annotation.TargetApi;
-import android.content.ClipData;
-import android.content.ClipDescription;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
@@ -15,18 +11,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.DragEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -41,7 +30,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.Random;
 import java.util.Vector;
 
 public class ComputerMultiplayer extends AppCompatActivity implements DialogInterface.OnDismissListener {
@@ -52,10 +40,6 @@ public class ComputerMultiplayer extends AppCompatActivity implements DialogInte
     private Ship battleship;
     private Ship cruiser;
     private Ship sub;
-    private String type;
-    private String direction;
-    private int length;
-    private Computer comp;
     private boolean message = false;
     private boolean AllSunk = false;
     String value;
@@ -65,11 +49,13 @@ public class ComputerMultiplayer extends AppCompatActivity implements DialogInte
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
+
+    //Enemy's map
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_computer);
-        comp = new Computer();
         player = findViewById(R.id.text_view_player2);
+        //Assign on click listener's to all of the tiles
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 String buttonId = "button_" + i + j + "2";
@@ -84,6 +70,7 @@ public class ComputerMultiplayer extends AppCompatActivity implements DialogInte
                 buttons[i][j].setOnClickListener(clickListen);
             }
         }
+        //Create the ships (hidden to the user)
         carrier = findViewById(R.id.carrier_ship2);
         carrier.setType("frigate");
         carrier.setLength(5);
@@ -105,21 +92,20 @@ public class ComputerMultiplayer extends AppCompatActivity implements DialogInte
 
         Ship[] temp = {carrier,battleship,cruiser,sub};
         shiparr = temp;
+        //Check if the config file exists, if so upload the map, if not randomly place ships
         File directory = getFilesDir();
         reference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 value = dataSnapshot.getValue(String.class);
+                //If the database does not read "a", load the map from the server
                 if(!value.equals("a"))
                 LoadGame(value);
-                //reference.child(id).setValue("a");
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 value = dataSnapshot.getValue(String.class);
-                Log.v("change","changed");
-
             }
 
             @Override
@@ -137,15 +123,9 @@ public class ComputerMultiplayer extends AppCompatActivity implements DialogInte
 
             }
         });
-        try {
-            Log.v("boop",directory.getCanonicalPath());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         File file = new File(directory, "config.txt");
         if(file.exists()) {
             String read = readFromFile(getApplicationContext());
-            Log.v("length",read);
             LoadGame(read);
             FlashMap();
         }
@@ -155,7 +135,6 @@ public class ComputerMultiplayer extends AppCompatActivity implements DialogInte
             } catch (IOException e) {
                 e.printStackTrace();
             }
-           // comp.RandomPlace();
         }
         FragmentManager fm = getSupportFragmentManager();
         popFrag editNameDialogFragment = popFrag.newInstance("Choose Your Attack");
@@ -164,65 +143,18 @@ public class ComputerMultiplayer extends AppCompatActivity implements DialogInte
 
 
     @Override
+    //When dismissing a message, check if it's a message that notifies the user
+    //the result of an attack, if so go back to the player's map
     public void onDismiss(final DialogInterface dialog) {
         if(message){
             message = false;
             finish();
         }
     }
-    private boolean check(int x, int y) {
-        if (direction.equals("n")) {
-            for (int i = y; i < y + length; i++) {
-                if (buttons[i][x].getState() == 1) {
-                    return false;
-                }
-
-            }
-        } else {
-            for (int i = x; i < x + length; i++) {
-                if (buttons[y][i].getState() == 1) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    protected void placeShip(int x, int y) {
-        if (direction.equals("n")) {
-            for (int i = 0; i < length; i++) {
-                buttons[i + y][x].setState(1);
-                buttons[i + y][x].setShip(type);
-                buttons[i + y][x].setShipPart(i + 1);
-                // String drawName = buttons[i + y][x].getShip() + "_" + buttons[i + y][x].getShipPart() + "1";
-                // int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
-                //  Drawable part = getDrawable(resId);
-                //  buttons[i + y][x].setBackground(part);
-
-            }
-        } else {
-            for (int i = 0; i < length; i++) {
-                buttons[y][x + i].setState(1);
-                buttons[y][x + i].setShip(type);
-                buttons[y][x + i].setShipPart(i + 1);
-                //  String drawName = buttons[y][x + i].getShip() + "_" + buttons[y][x + i].getShipPart();
-                //  int resId = getResources().getIdentifier(drawName, "drawable", getPackageName());
-                //  Drawable part = getDrawable(resId);
-                // buttons[y][x + i].setBackground(part);
-            }
-        }
-        for (int k = 0; k < shiparr.length; k++) {
-            if (shiparr[k].getType() == type) {
-                shiparr[k].setPositions(x, y);
-                shiparr[k].setVisibility(View.GONE);
-            }
-        }
-    }
 
 
 
+    //On click listener for attacking tiles, updates the tiles if they are hit
     protected class myOnClickListener implements View.OnClickListener {
         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @Override
@@ -269,6 +201,8 @@ public class ComputerMultiplayer extends AppCompatActivity implements DialogInte
                     }
                 }
             }
+            //Check if the config file exists, if it does write to it the new status of the map
+            //If not create it first, and then update it
             File directory = getFilesDir(); //or getExternalFilesDir(null); for external storage
             File file = new File(directory, "config.txt");
             file.delete();
@@ -278,14 +212,12 @@ public class ComputerMultiplayer extends AppCompatActivity implements DialogInte
                 e.printStackTrace();
             }
             writeToFile(getApplicationContext());
-            String read = readFromFile(getApplicationContext());
-            Log.v("writing",read);
-            // finish();
 
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    //Sink a ship abd update the tiles to show a sunk ship
     public void sink(String name) {
         for (int i = 0; i < dim; i++) {
             for (int j = 0; j < dim; j++) {
@@ -302,50 +234,14 @@ public class ComputerMultiplayer extends AppCompatActivity implements DialogInte
                 AllSunk = false;
             }
         }
+        //If all sunk, display victory message
         if(AllSunk){
             FragmentManager fm = getSupportFragmentManager();
             finalfrag editNameDialogFragment = finalfrag.newInstance("Victory!");
             editNameDialogFragment.show(fm, "fragment_edit_name");
         }
     }
-
-    protected class Computer{
-        public Computer(){
-
-        }
-        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-        protected void RandomPlace() {
-            int xLim;
-            int yLim;
-            Random rand = new Random();
-            for (int i = 0; i < shiparr.length; i++) {
-                int randDir = rand.nextInt(2);
-                if (randDir == 0) {
-                    shiparr[i].setDirection("n");
-                } else {
-                    shiparr[i].setDirection("e");
-                }
-                type = shiparr[i].getType();
-                length = shiparr[i].getLength();
-                direction = shiparr[i].getDirection();
-                if (direction.equals("n")) {
-                    xLim = dim;
-                    yLim = dim - length;
-                } else {
-                    xLim = dim - length;
-                    yLim = dim;
-                }
-                int x = rand.nextInt(xLim);
-                int y = rand.nextInt(yLim);
-                while (!check(x, y)) {
-                    x = rand.nextInt(xLim);
-                    y = rand.nextInt(yLim);
-                }
-                placeShip(x, y);
-            }
-
-        }
-    }
+    //Read from file method to get the old status of the map
     private String readFromFile(Context context) {
 
         String ret = "";
@@ -375,7 +271,7 @@ public class ComputerMultiplayer extends AppCompatActivity implements DialogInte
 
         return ret;
     }
-
+    //Write to file method used for writing the status of the map to the config fil
     private void writeToFile(Context context) {
         try {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("config.txt", Context.MODE_PRIVATE));
@@ -405,7 +301,7 @@ public class ComputerMultiplayer extends AppCompatActivity implements DialogInte
             Log.e("Exception", "File write failed: " + e.toString());
         }
     }
-
+    //If read from file, update the state of all the tiles and ships
     private void LoadGame(String s){
         for(int i = 0; i <200; i += 2){
             int a  =i/2;
@@ -459,6 +355,7 @@ public class ComputerMultiplayer extends AppCompatActivity implements DialogInte
     }
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    //After uploading the map, change the image of the tiles to show accurate state
     public void FlashMap(){
         for(int i = 0; i <10; i++){
             for(int j = 0; j<10; j++){

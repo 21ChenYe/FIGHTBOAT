@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.content.Intent;
 import android.widget.TextView;
 /*
-    This is the main menu for the game, the textviews are links to the 
+    This is the main menu for the game, the textviews are links to the different gameplay
  */
 public class MainMenu extends AppCompatActivity {
 private MediaPlayer mp;
@@ -21,7 +21,7 @@ private MediaPlayer mp;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-
+        //On click start player v computer gameplay
         TextView button1 = findViewById(R.id.button1);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,7 +32,7 @@ private MediaPlayer mp;
                 startActivity(new Intent(MainMenu.this, MainActivity.class));
             }
         });
-
+        //On click start player v player gameplay
         TextView button2 = findViewById(R.id.button2);
         button2.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -4,7 +4,10 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 
-
+/*
+    Tile object that makes up the map, holds data on where it is in the map, which ship it its
+    holding, which part of the ship it is, and which state it is in
+ */
 public class Tile extends android.support.v7.widget.AppCompatButton {
         int posX;
         int posY;

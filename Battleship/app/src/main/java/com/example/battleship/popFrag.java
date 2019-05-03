@@ -11,7 +11,9 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-
+/* Pop message telling the user to place ships, attack, and the result of an attack
+   used to guide the user through the game
+ */
 public class popFrag extends DialogFragment {
     private TextView mEditText;
 

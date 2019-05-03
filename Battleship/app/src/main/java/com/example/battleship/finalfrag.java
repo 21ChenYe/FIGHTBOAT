@@ -15,6 +15,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 
+/* Pop up used to show the end of the game message
+    Takes the user back to the main menu or restarts game
+ */
+
 public class finalfrag extends DialogFragment {
     private TextView mEditText;
     private Button goHome;
